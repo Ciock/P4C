@@ -25,12 +25,12 @@
         </div>
 
         <!-- Login Form -->
-        <form>
+        <!-- TODO: set method -> post -->
+        <form action="php_logic/login.php" method="get">
             <input type="text" id="login" class="fadeIn first" name="login" placeholder="Login">
-            <input type="password" id="password" class="fadeIn second" name="login" placeholder="Password">
-            <input type="submit" class="fadeIn third" value="Login">
+            <input type="password" id="password" class="fadeIn second" name="password" placeholder="Password">
+            <input type="submit" class="fadeIn third" name="loginbutton" value="login">
         </form>
-
     </div>
 </div>
 </body>
