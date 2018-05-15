@@ -25,7 +25,7 @@
         </div>
 
         <!-- Login Form -->
-        <form>
+        <form action="php_logic/registration.php">
             <input type="text" id="login" class="fadeIn second" name="login" placeholder="Login">
             <input type="password" id="password" class="fadeIn third" name="login" placeholder="Password">
             <input type="password" id="conf_password" class="fadeIn fourth" name="login" placeholder="Confirm password">
@@ -42,7 +42,8 @@
 
             <br/>
 
-            <input type="submit" class="fadeIn fifth" value="Login">
+            <input type="submit" class="fadeIn fifth" name="registrationbutton" value="registration">
+            <input type="submit" class="fadeIn fifth" name="registrationbutton" value="homepage">
         </form>
 
     </div>
