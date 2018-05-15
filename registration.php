@@ -30,18 +30,15 @@
             <input type="password" id="password" class="fadeIn third" name="login" placeholder="Password">
             <input type="password" id="conf_password" class="fadeIn fourth" name="login" placeholder="Confirm password">
 
-            <label class="container">I'm a worker!
+            <label class="container fadeIn fifth">I'm a worker!
                 <input type="radio" id = "choice1" name="choice1">
                 <span class="checkmark"></span>
             </label>
 
-            <label class="container">I'm a requester!
+            <label class="container fadeIn fifth">I'm a requester!
                 <input type="radio" id = "choice2" name="choice1">
                 <span class="checkmark"></span>
             </label>
-
-            <br/>
-
             <input type="submit" class="fadeIn fifth" name="registrationbutton" value="registration">
             <input type="submit" class="fadeIn fifth" name="registrationbutton" value="homepage">
         </form>
