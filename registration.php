@@ -48,12 +48,12 @@ $connection = connettiDB();
             </select>
 
             <label class="container fadeIn fifth">I'm a worker!
-                <input type="radio" id="choice1" name="isWorker">
+                <input type="radio" value="choice1" name="role">
                 <span class="checkmark"></span>
             </label>
 
             <label class="container fadeIn fifth">I'm a requester!
-                <input type="radio" id="choice2" name="isRequester">
+                <input type="radio" value="choice2" name="role">
                 <span class="checkmark"></span>
             </label>
             <input type="submit" class="fadeIn fifth" name="registrationbutton" value="sign in">
