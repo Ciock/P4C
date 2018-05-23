@@ -15,14 +15,10 @@
 </head>
 
 <body>
+
 <?php
-$connection = pg_connect("host=localhost dbname=postgres user=postgres password=postgres");
-if ($connection == null) {
-    echo
-    "<script>
-        alert('qualcosa è andato storto');
-    </script>";
-}
+include 'php_logic/connettiDB.php';
+$connection = connettiDB();
 ?>
 
 <div class="wrapper fadeInDown">
@@ -43,7 +39,7 @@ if ($connection == null) {
                 <?php
                 $result = pg_query($connection, "select * from p4c.skills");
                 if ($result == null)
-                    echo "fail";
+                    echo "Fail during query";
                 while ($row = pg_fetch_row($result)) {
                     echo "<option>$row[0]</option>";
                 }

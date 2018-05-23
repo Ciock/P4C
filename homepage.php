@@ -19,16 +19,12 @@
 </head>
 
 <body>
-<?php
-$connection = pg_connect("host=localhost dbname=postgres user=postgres password=postgres");
-if ($connection == null) {
-    echo
-    "<script>
-        alert('qualcosa è andato storto');
-    </script>";
-}
 
+<?php
+include 'php_logic/connettiDB.php';
+$connection = connettiDB();
 ?>
+
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
@@ -64,7 +60,7 @@ if ($connection == null) {
         <?php
         $result = pg_query_params($connection, "select * from p4c.task WHERE requester=$1", array("culocane"));
         if ($result == null)
-            echo "fail";
+            echo "Fail during query";
 
         while ($row = pg_fetch_row($result)) {
             echo "
