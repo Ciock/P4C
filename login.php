@@ -27,7 +27,7 @@
         <!-- Login Form -->
         <!-- TODO: set method -> post -->
         <form action="php_logic/login.php" method="get">
-            <input type="text" id="login" class="fadeIn first" name="login" placeholder="Login">
+            <input type="text" id="login" class="fadeIn first" name="name" placeholder="Login">
             <input type="password" id="password" class="fadeIn second" name="password" placeholder="Password">
             <input type="submit" class="fadeIn third" name="loginbutton" value="login">
             <input type="submit" class="fadeIn third" name="loginbutton" value="sign in">

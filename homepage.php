@@ -34,17 +34,31 @@ $connection = connettiDB();
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="registration.php">Registration
-                        <span class=" sr-only">(current)</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="login.php">Login</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Stats</a>
-                </li>
+                <?php
+                if ($_SESSION['login_user']) {
+                    echo '
+                        <li class="nav-item active">
+                            <a class="nav-link" href="php_logic/sessionClose.php">Logout
+                                <span class=" sr-only">(current)</span>
+                            </a>
+                        </li>
+                    ';
+                } else {
+                    echo '
+                        <li class="nav-item active">
+                            <a class="nav-link" href="registration.php">Registration
+                                <span class=" sr-only">(current)</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="login.php">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Stats</a>
+                        </li>
+                    ';
+                }
+                ?>
             </ul>
         </div>
     </div>

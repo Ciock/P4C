@@ -12,6 +12,9 @@ switch ($_REQUEST['registrationbutton']) {
             if ($role == "requester") {
                 pg_query_params($connection, "INSERT INTO p4c.user(username, password) VALUES ($1, $2)", array($name, $password));
                 pg_query_params($connection, "INSERT INTO p4c.requester(username) VALUES ($1)", array($name));
+                session_start();
+                // Store Session Data
+                $_SESSION['login_user'] = $name;  // Initializing Session with value of PHP Variable
                 header("Location:/P4C/homepage.php");
             } elseif ($role == "worker") {
                 pg_query_params($connection, "INSERT INTO p4c.user(username, password) VALUES ($1, $2)", array($name, $password));
@@ -20,6 +23,9 @@ switch ($_REQUEST['registrationbutton']) {
                 foreach ($skills as $i) {
                     pg_query_params($connection, "INSERT INTO p4c.got_skills(worker, skill) VALUES ($1,$2)", array($name, $i));
                 }
+                session_start();
+                // Store Session Data
+                $_SESSION['login_user'] = $name;  // Initializing Session with value of PHP Variable
                 header("Location:/P4C/homepage.php");
             } else {
                 echo "<script>
