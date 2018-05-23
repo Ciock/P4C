@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html class=''>
 <head>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet"/>
     <link href="css/registration.css" rel="stylesheet" id="bootstrap-css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -10,10 +11,19 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
     <!-- SOURCE: https://bootsnipp.com/snippets/dldxB -->
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
 </head>
 
 <body>
+<?php
+$connection = pg_connect("host=localhost dbname=postgres user=postgres password=postgres");
+if ($connection == null) {
+    echo
+    "<script>
+        alert('qualcosa è andato storto');
+    </script>";
+}
+?>
 
 <div class="wrapper fadeInDown">
     <div id="formContent">
@@ -21,7 +31,7 @@
 
         <!-- Icon -->
         <div class="fadeIn first">
-            <img src="http://danielzawadzki.com/codepen/01/icon.svg" id="icon" alt="User Icon" />
+            <img src="http://danielzawadzki.com/codepen/01/icon.svg" id="icon" alt="User Icon"/>
         </div>
 
         <!-- Login Form -->
@@ -29,14 +39,25 @@
             <input type="text" id="login" class="fadeIn second" name="login" placeholder="Login">
             <input type="password" id="password" class="fadeIn third" name="login" placeholder="Password">
             <input type="password" id="conf_password" class="fadeIn fourth" name="login" placeholder="Confirm password">
+            <select class="js-example-basic-multiple fadeIn second" name="states[]" multiple="multiple">
+                <?php
+                $result = pg_query($connection, "select * from p4c.skills");
+                if ($result == null)
+                    echo "fail";
+                while ($row = pg_fetch_row($result)) {
+                    echo "<option>$row[0]</option>";
+                }
+                ?>
+
+            </select>
 
             <label class="container fadeIn fifth">I'm a worker!
-                <input type="radio" id = "choice1" name="choice1">
+                <input type="radio" id="choice1" name="choice1">
                 <span class="checkmark"></span>
             </label>
 
             <label class="container fadeIn fifth">I'm a requester!
-                <input type="radio" id = "choice2" name="choice1">
+                <input type="radio" id="choice2" name="choice1">
                 <span class="checkmark"></span>
             </label>
             <input type="submit" class="fadeIn fifth" name="registrationbutton" value="sign in">
@@ -45,5 +66,12 @@
 
     </div>
 </div>
+<script>
+    $(document).ready(function () {
+        $('.js-example-basic-multiple').select2();
+    });
+
+
+</script>
 </body>
 </html>

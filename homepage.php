@@ -61,24 +61,25 @@ if ($connection == null) {
     <h1 class="my-4">Task</h1>
 
     <div class="row">
-                <?php
-                $result = pg_query_params($connection, "select * from p4c.task WHERE requester=$1", array("culocane"));
-                if ($result == null)
-                    echo "fail";
+        <?php
+        $result = pg_query_params($connection, "select * from p4c.task WHERE requester=$1", array("culocane"));
+        if ($result == null)
+            echo "fail";
 
-                while ($row = pg_fetch_row($result)) {
-                    echo "<div class=\"col-lg-4 col-sm-6 portfolio-item\">
-                            <div class=\"card h-100\">
-                                <div class=\"card-body\">
-                                    <h4 class=\"card-title\">
-                                        <a href=\"#\">$row[1]</a>
-                                    </h4>
-                                <p class=\"card-text\">$row[2]</p>
-                                </div>
-                            </div>
-                         </div>";
-                }
-                ?>
+        while ($row = pg_fetch_row($result)) {
+            echo "
+                <div class=\"col-lg-4 col-sm-6 portfolio-item\">
+                    <div class=\"card h-100\">
+                        <div class=\"card-body\">
+                            <h4 class=\"card-title\">
+                                <a href=\"#\">$row[1]</a>
+                            </h4>
+                        <p class=\"card-text\">$row[2]</p>
+                        </div>
+                    </div>
+                </div>";
+        }
+        ?>
     </div>
     <!-- /.row -->
 </div>
