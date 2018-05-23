@@ -19,7 +19,16 @@
 </head>
 
 <body>
+<?php
+$connection = pg_connect("host=localhost dbname=postgres user=postgres password=postgres");
+if ($connection == null) {
+    echo
+    "<script>
+        alert('qualcosa è andato storto');
+    </script>";
+}
 
+?>
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
@@ -52,109 +61,33 @@
     <h1 class="my-4">Task</h1>
 
     <div class="row">
-        <div class="col-lg-4 col-sm-6 portfolio-item">
-            <div class="card h-100">
-                <div class="card-body">
-                    <h4 class="card-title">
-                        <a href="#">---> pg.queryparams(RICHIESTA NOME TASK) <---</a>
-                    </h4>
-                    <p class="card-text">---> DESCRIZIONE TASK <---</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-4 col-sm-6 portfolio-item">
-            <div class="card h-100">
-                <div class="card-body">
-                    <h4 class="card-title">
-                        <a href="#">Project Two</a>
-                    </h4>
-                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod
-                        odio, gravida pellentesque urna varius vitae.</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-4 col-sm-6 portfolio-item">
-            <div class="card h-100">
-                <div class="card-body">
-                    <h4 class="card-title">
-                        <a href="#">Project Three</a>
-                    </h4>
-                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos quisquam, error
-                        quod sed cumque, odio distinctio velit nostrum temporibus necessitatibus et facere atque iure
-                        perspiciatis mollitia recusandae vero vel quam!</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-4 col-sm-6 portfolio-item">
-            <div class="card h-100">
+                <?php
+                $result = pg_query_params($connection, "select * from p4c.task WHERE requester=$1", array("culocane"));
+                if ($result == null)
+                    echo "fail";
 
-                <div class="card-body">
-                    <h4 class="card-title">
-                        <a href="#">Project Four</a>
-                    </h4>
-                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod
-                        odio, gravida pellentesque urna varius vitae.</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-4 col-sm-6 portfolio-item">
-            <div class="card h-100">
-                <div class="card-body">
-                    <h4 class="card-title">
-                        <a href="#">Project Five</a>
-                    </h4>
-                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod
-                        odio, gravida pellentesque urna varius vitae.</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-4 col-sm-6 portfolio-item">
-            <div class="card h-100">
-                <div class="card-body">
-                    <h4 class="card-title">
-                        <a href="#">Project Six</a>
-                    </h4>
-                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Itaque earum nostrum
-                        suscipit ducimus nihil provident, perferendis rem illo, voluptate atque, sit eius in voluptates,
-                        nemo repellat fugiat excepturi! Nemo, esse.</p>
-                </div>
-            </div>
-        </div>
+                while ($row = pg_fetch_row($result)) {
+                    echo "<div class=\"col-lg-4 col-sm-6 portfolio-item\">
+                            <div class=\"card h-100\">
+                                <div class=\"card-body\">
+                                    <h4 class=\"card-title\">
+                                        <a href=\"#\">$row[1]</a>
+                                    </h4>
+                                <p class=\"card-text\">$row[2]</p>
+                                </div>
+                            </div>
+                         </div>";
+                }
+                ?>
     </div>
     <!-- /.row -->
-
-    <!-- Pagination -->
-    <ul class="pagination justify-content-center">
-        <li class="page-item">
-            <a class="page-link" href="#" aria-label="Previous">
-                <span aria-hidden="true">&laquo;</span>
-                <span class="sr-only">Previous</span>
-            </a>
-        </li>
-        <li class="page-item">
-            <a class="page-link" href="#">1</a>
-        </li>
-        <li class="page-item">
-            <a class="page-link" href="#">2</a>
-        </li>
-        <li class="page-item">
-            <a class="page-link" href="#">3</a>
-        </li>
-        <li class="page-item">
-            <a class="page-link" href="#" aria-label="Next">
-                <span aria-hidden="true">&raquo;</span>
-                <span class="sr-only">Next</span>
-            </a>
-        </li>
-    </ul>
-
 </div>
 <!-- /.container -->
 
 <!-- Footer -->
 <footer class="py-5 bg-dark">
     <div class="container">
-        <p class="m-0 text-center text-white">Copyright &copy; STOCAZZO 2018</p>
+        <p class="m-0 text-center text-white">Copyright &copy; P4C 2018</p>
     </div>
     <!-- /.container -->
 </footer>
