@@ -35,7 +35,7 @@ $connection = connettiDB();
             <input type="text" id="login" class="fadeIn second" name="name" placeholder="Login">
             <input type="password" id="password" class="fadeIn third" name="password" placeholder="Password">
             <input type="password" id="conf_password" class="fadeIn fourth" name="passwordconf" placeholder="Confirm password">
-            <select class="js-example-basic-multiple fadeIn second" name="states[]" multiple="multiple">
+            <select class="js-example-basic-multiple fadeIn second" name="skills[]" multiple="multiple">
                 <?php
                 $result = pg_query($connection, "select * from p4c.skills");
                 if ($result == null)
@@ -48,12 +48,12 @@ $connection = connettiDB();
             </select>
 
             <label class="container fadeIn fifth">I'm a worker!
-                <input type="radio" value="choice1" name="role">
+                <input type="radio" value="worker" name="role">
                 <span class="checkmark"></span>
             </label>
 
             <label class="container fadeIn fifth">I'm a requester!
-                <input type="radio" value="choice2" name="role">
+                <input type="radio" value="requester" name="role">
                 <span class="checkmark"></span>
             </label>
             <input type="submit" class="fadeIn fifth" name="registrationbutton" value="sign in">
