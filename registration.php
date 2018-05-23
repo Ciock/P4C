@@ -32,9 +32,9 @@ $connection = connettiDB();
 
         <!-- Login Form -->
         <form action="php_logic/registration.php">
-            <input type="text" id="login" class="fadeIn second" name="login" placeholder="Login">
-            <input type="password" id="password" class="fadeIn third" name="login" placeholder="Password">
-            <input type="password" id="conf_password" class="fadeIn fourth" name="login" placeholder="Confirm password">
+            <input type="text" id="login" class="fadeIn second" name="name" placeholder="Login">
+            <input type="password" id="password" class="fadeIn third" name="password" placeholder="Password">
+            <input type="password" id="conf_password" class="fadeIn fourth" name="passwordconf" placeholder="Confirm password">
             <select class="js-example-basic-multiple fadeIn second" name="states[]" multiple="multiple">
                 <?php
                 $result = pg_query($connection, "select * from p4c.skills");
@@ -48,12 +48,12 @@ $connection = connettiDB();
             </select>
 
             <label class="container fadeIn fifth">I'm a worker!
-                <input type="radio" id="choice1" name="choice1">
+                <input type="radio" id="choice1" name="isWorker">
                 <span class="checkmark"></span>
             </label>
 
             <label class="container fadeIn fifth">I'm a requester!
-                <input type="radio" id="choice2" name="choice1">
+                <input type="radio" id="choice2" name="isRequester">
                 <span class="checkmark"></span>
             </label>
             <input type="submit" class="fadeIn fifth" name="registrationbutton" value="sign in">
