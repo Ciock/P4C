@@ -39,8 +39,8 @@
                 <input type="radio" id = "choice2" name="choice1">
                 <span class="checkmark"></span>
             </label>
-            <input type="submit" class="fadeIn fifth" name="registrationbutton" value="registration">
-            <input type="submit" class="fadeIn fifth" name="registrationbutton" value="homepage">
+            <input type="submit" class="fadeIn fifth" name="registrationbutton" value="sign in">
+            <input type="submit" class="fadeIn fifth" name="registrationbutton" value="login">
         </form>
 
     </div>

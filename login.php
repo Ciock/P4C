@@ -30,7 +30,7 @@
             <input type="text" id="login" class="fadeIn first" name="login" placeholder="Login">
             <input type="password" id="password" class="fadeIn second" name="password" placeholder="Password">
             <input type="submit" class="fadeIn third" name="loginbutton" value="login">
-            <input type="submit" class="fadeIn third" name="loginbutton" value="homepage">
+            <input type="submit" class="fadeIn third" name="loginbutton" value="sign in">
         </form>
     </div>
 </div>

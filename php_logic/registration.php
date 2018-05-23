@@ -2,12 +2,12 @@
     switch($_REQUEST['registrationbutton']) {
 
         // TODO: funzione per effettuare la registrazione
-        case 'registration': //action for html here
+        case 'sign in': //action for html here
             header("Location:/P4C/registration.php");
             break;
 
-        case 'homepage': //action for html here
-            header("Location:/P4C/homepage.php");
+        case 'login': //action for html here
+            header("Location:/P4C/login.php");
             break;
 
         default:
