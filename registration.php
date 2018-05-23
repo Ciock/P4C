@@ -31,7 +31,7 @@ $connection = connettiDB();
         </div>
 
         <!-- Login Form -->
-        <form action="php_logic/registration.php">
+        <form action="php_logic/registrationFunction.php">
             <input type="text" id="login" class="fadeIn second" name="name" placeholder="Login">
             <input type="password" id="password" class="fadeIn third" name="password" placeholder="Password">
             <input type="password" id="conf_password" class="fadeIn fourth" name="passwordconf" placeholder="Confirm password">
