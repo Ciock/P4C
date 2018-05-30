@@ -79,53 +79,55 @@ if ($result == null)
 while ($row = pg_fetch_row($result)) {
     echo "
 <div class=\"container\">
-    <h1 class=\"my-4\">Posizione:
+    <h1 class=\"my-4\">Posizione: $row[2]
     </h1>
 </div>
 <div class=\"container\">
 
     <!-- Page Heading -->
-    <h1 class=\"my-4\">Task Eseguiti</h1>
-
-    <div class=\"row\">
-        <div class=\"col-lg-4 col-sm-6 portfolio-item\">
-            <div class=\"card h-100\">
-                <div class=\"card-body\">
-                    <h4 class=\"card-title\">
-                        <a href=\"#\">$row[1]</a>
-                    </h4>
-                    <h5 class=\"card-title\">
-                        <a href=\"#\">$row[1]</a>
-                    </h5>
-                <p class=\"card-text\"> <strong>Descrizione:</strong> $row[1]</p>
-                <h6 class=\"card-text\"><strong>Requester:</strong> $row[1]</h6 >
+    <h1 class=\"my-4\">Task Eseguiti</h1>";
+    $removeParentesi = array("{","}");
+    $eseguitiCleared = str_replace($removeParentesi, "", $row[3]);
+    $eseguitiArray = explode(',',$eseguitiCleared);
+    foreach ($eseguitiArray as $item) {
+        echo "
+        <div class=\"row\">
+            <div class=\"col-lg-4 col-sm-6 portfolio-item\">
+                <div class=\"card h-100\">
+                    <div class=\"card-body\">
+                        <h4 class=\"card-title\">
+                            <a href=\"#\">$item</a>
+                        </h4>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-<!-- /.row -->
+<!-- /.row -->";
+    }
+echo "
 </div>
 <div class=\"container\">
 
 <!-- Page Heading -->
-<h1 class=\"my-4\">Task Validi</h1>
-
+<h1 class=\"my-4\">Task Validi</h1>";
+$removeParentesi = array("{","}");
+$eseguitiCleared = str_replace($removeParentesi, "", $row[4]);
+$eseguitiArray = explode(',',$eseguitiCleared);
+foreach ($eseguitiArray as $item) {
+    echo "
 <div class=\"row\">
     <div class=\"col-lg-4 col-sm-6 portfolio-item\">
         <div class=\"card h-100\">
             <div class=\"card-body\">
                 <h4 class=\"card-title\">
-                    <a href=\"#\">$row[1]</a>
+                    <a href=\"#\">$item</a>
                 </h4>
-                <h5 class=\"card-title\">
-                    <a href=\"#\">$row[1]</a>
-                </h5>
-                <p class=\"card-text\"> <strong>Descrizione:</strong>$row[1]</p>
-                <h6 class=\"card-text\"><strong>Requester:</strong>$row[1]</h6>
             </div>
         </div>
     </div>
-</div>
+</div>";
+}
+echo "
 <!-- /.row -->
 </div>
 <!-- /.container -->
