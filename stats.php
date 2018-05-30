@@ -45,7 +45,7 @@ session_start();
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="stats.php">Stats</a>
+                            <a class="nav-link" href="homepage.php">Homepage</a>
                         </li>
                         <li class="nav-item active">
                             <a class="nav-link" href="php_logic/sessionClose.php">Logout
@@ -72,38 +72,66 @@ session_start();
 </nav>
 
 <!-- Page Content -->
-<div class="container">
+<?php
+$result = pg_query_params($connection, "SELECT * FROM p4c.stats($1);", array($_SESSION['login_user']));
+if ($result == null)
+    echo "Fail during query";
+while ($row = pg_fetch_row($result)) {
+    echo "
+<div class=\"container\">
+    <h1 class=\"my-4\">Posizione:
+    </h1>
+</div>
+<div class=\"container\">
 
     <!-- Page Heading -->
-    <h1 class="my-4">Task</h1>
+    <h1 class=\"my-4\">Task Eseguiti</h1>
 
-    <div class="row">
-        <?php
-        $result = pg_query_params($connection, "SELECT * FROM p4c.task_assignment($1);", array($_SESSION['login_user']));
-        if ($result == null)
-            echo "Fail during query";
-        while ($row = pg_fetch_row($result)) {
-            echo "
-                <div class=\"col-lg-4 col-sm-6 portfolio-item\">
-                    <div class=\"card h-100\">
-                        <div class=\"card-body\">
-                            <h4 class=\"card-title\">
-                                <a href=\"#\">$row[1]</a>
-                            </h4>
-                            <h5 class=\"card-title\">
-                                <a href=\"#\">$row[4]</a>
-                            </h5>
-                        <p class=\"card-text\"> <strong>Descrizione:</strong> $row[2]</p>
-                        <h6 class=\"card-text\"><strong>Requester:</strong> $row[3]</h6 >
-                        </div>
-                    </div>
-                </div>";
-        }
-        ?>
+    <div class=\"row\">
+        <div class=\"col-lg-4 col-sm-6 portfolio-item\">
+            <div class=\"card h-100\">
+                <div class=\"card-body\">
+                    <h4 class=\"card-title\">
+                        <a href=\"#\">$row[1]</a>
+                    </h4>
+                    <h5 class=\"card-title\">
+                        <a href=\"#\">$row[1]</a>
+                    </h5>
+                <p class=\"card-text\"> <strong>Descrizione:</strong> $row[1]</p>
+                <h6 class=\"card-text\"><strong>Requester:</strong> $row[1]</h6 >
+                </div>
+            </div>
+        </div>
     </div>
-    <!-- /.row -->
+<!-- /.row -->
+</div>
+<div class=\"container\">
+
+<!-- Page Heading -->
+<h1 class=\"my-4\">Task Validi</h1>
+
+<div class=\"row\">
+    <div class=\"col-lg-4 col-sm-6 portfolio-item\">
+        <div class=\"card h-100\">
+            <div class=\"card-body\">
+                <h4 class=\"card-title\">
+                    <a href=\"#\">$row[1]</a>
+                </h4>
+                <h5 class=\"card-title\">
+                    <a href=\"#\">$row[1]</a>
+                </h5>
+                <p class=\"card-text\"> <strong>Descrizione:</strong>$row[1]</p>
+                <h6 class=\"card-text\"><strong>Requester:</strong>$row[1]</h6>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.row -->
 </div>
 <!-- /.container -->
+";
+}
+?>
 
 <!-- Footer -->
 <footer class="py-5 bg-dark">
