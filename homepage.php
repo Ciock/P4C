@@ -23,6 +23,7 @@
 <?php
 include 'php_logic/connettiDB.php';
 $connection = connettiDB();
+session_start();
 ?>
 
 <!-- Navigation -->
@@ -37,6 +38,15 @@ $connection = connettiDB();
                 <?php
                 if ($_SESSION['login_user']) {
                     echo '
+                        <li class="nav-item">
+                            <a class="nav-link">';
+                    echo $_SESSION['login_user'];
+                    echo '
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Stats</a>
+                        </li>
                         <li class="nav-item active">
                             <a class="nav-link" href="php_logic/sessionClose.php">Logout
                                 <span class=" sr-only">(current)</span>
@@ -52,9 +62,6 @@ $connection = connettiDB();
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="login.php">Login</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Stats</a>
                         </li>
                     ';
                 }

@@ -5,5 +5,6 @@
  * Date: 23/05/18
  * Time: 15.54
  */
+session_start();
 session_destroy();
 header("Location:/P4C/homepage.php");
