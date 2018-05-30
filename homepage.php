@@ -72,6 +72,9 @@ session_start();
                         <li class="nav-item">
                             <a class="nav-link" href="newCampaign.php">New Campaign</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="newTask.php">New Taks</a>
+                        </li>
                         <li class="nav-item active">
                             <a class="nav-link" href="php_logic/sessionClose.php">Logout
                                 <span class=" sr-only">(current)</span>

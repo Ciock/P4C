@@ -75,8 +75,18 @@
 <div class=\"container\">
     <h1 class=\"my-4\">New Campaign</h1>
     <form action="php_logic/newCampaign.php" method="get">
-            <input type="text" name="name" placeholder="Titolo">
-            <input type="date" name="date" placeholder="Expiration Date">
+            <input type="text" name="title" placeholder="Title">
+            <input type="text" name="description" placeholder="Description">
+            <input type="number" name="description" placeholder="1">
+            <input type="number" name="threshold" placeholder="0.7">
+            <select name="campaign">
+                <?php
+                $result = pg_query_params($connection, "SELECT title FROM p4c.campaign WHERE requester = $1", array($_SESSION['login_user']));
+                while ($row = pg_fetch_row($result)) {
+                    echo "<option>$row[0]</option>";
+                }
+                ?>
+            </select>
             <input type="submit" name="button" value="Create">
     </form>
 </div>
