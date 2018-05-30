@@ -72,68 +72,18 @@ session_start();
 </nav>
 
 <!-- Page Content -->
-<?php
-$result = pg_query_params($connection, "SELECT * FROM p4c.stats($1);", array($_SESSION['login_user']));
-if ($result == null)
-    echo "Fail during query";
-while ($row = pg_fetch_row($result)) {
-    echo "
 <div class=\"container\">
-    <h1 class=\"my-4\">Posizione: $row[2]
-    </h1>
+    <h1 class=\"my-4\">New Campaign</h1>
+    <form action="php_logic/newCampaign.php" method="get">
+            <input type="text" name="name" placeholder="Titolo">
+            <input type="date" name="date" placeholder="Expiration Date">
+            <input type="submit" name="button" value="CREATE">
+    </form>
+    <?php
+    date_default_timezone_set("Europe/Rome");
+    echo "Europe/Rome:".date('Y-m-d');
+    ?>
 </div>
-<div class=\"container\">
-
-    <!-- Page Heading -->
-    <h1 class=\"my-4\">Task Eseguiti</h1>";
-    $removeParentesi = array("{","}");
-    $eseguitiCleared = str_replace($removeParentesi, "", $row[3]);
-    $eseguitiArray = explode(',',$eseguitiCleared);
-    foreach ($eseguitiArray as $item) {
-        echo "
-        <div class=\"row\">
-            <div class=\"col-lg-4 col-sm-6 portfolio-item\">
-                <div class=\"card h-100\">
-                    <div class=\"card-body\">
-                        <h4 class=\"card-title\">
-                            <a href=\"#\">$item</a>
-                        </h4>
-                    </div>
-                </div>
-            </div>
-        </div>
-<!-- /.row -->";
-    }
-echo "
-</div>
-<div class=\"container\">
-
-<!-- Page Heading -->
-<h1 class=\"my-4\">Task Validi</h1>";
-$removeParentesi = array("{","}");
-$eseguitiCleared = str_replace($removeParentesi, "", $row[4]);
-$eseguitiArray = explode(',',$eseguitiCleared);
-foreach ($eseguitiArray as $item) {
-    echo "
-<div class=\"row\">
-    <div class=\"col-lg-4 col-sm-6 portfolio-item\">
-        <div class=\"card h-100\">
-            <div class=\"card-body\">
-                <h4 class=\"card-title\">
-                    <a href=\"#\">$item</a>
-                </h4>
-            </div>
-        </div>
-    </div>
-</div>";
-}
-echo "
-<!-- /.row -->
-</div>
-<!-- /.container -->
-";
-}
-?>
 
 <!-- Footer -->
 <footer class="py-5 bg-dark">
