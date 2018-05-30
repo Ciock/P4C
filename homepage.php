@@ -93,8 +93,8 @@ session_start();
                             <h5 class=\"card-title\">
                                 <a href=\"#\">$row[4]</a>
                             </h5>
-                        <p class=\"card-text\">$row[2]</p>
-                        <h6 class=\"card - title\">$row[3]</h6 >
+                        <p class=\"card-text\"> <strong>Descrizione:</strong> $row[2]</p>
+                        <h6 class=\"card-text\"><strong>Requester:</strong> $row[3]</h6 >
                         </div>
                     </div>
                 </div>";
