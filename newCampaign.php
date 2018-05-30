@@ -3,6 +3,12 @@
 
 <head>
 
+    <?php
+    include 'php_logic/connettiDB.php';
+    $connection = connettiDB();
+    session_start();
+    ?>
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -19,12 +25,6 @@
 </head>
 
 <body>
-
-<?php
-include 'php_logic/connettiDB.php';
-$connection = connettiDB();
-session_start();
-?>
 
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
@@ -77,12 +77,8 @@ session_start();
     <form action="php_logic/newCampaign.php" method="get">
             <input type="text" name="name" placeholder="Titolo">
             <input type="date" name="date" placeholder="Expiration Date">
-            <input type="submit" name="button" value="CREATE">
+            <input type="submit" name="button" value="Create">
     </form>
-    <?php
-    date_default_timezone_set("Europe/Rome");
-    echo "Europe/Rome:".date('Y-m-d');
-    ?>
 </div>
 
 <!-- Footer -->
