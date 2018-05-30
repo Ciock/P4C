@@ -79,10 +79,9 @@ session_start();
 
     <div class="row">
         <?php
-        $result = pg_query_params($connection, "select * from p4c.task WHERE requester=$1", array("culocane"));
+        $result = pg_query_params($connection, "SELECT * FROM p4c.task_assignment($1);", array($_SESSION['login_user']));
         if ($result == null)
             echo "Fail during query";
-
         while ($row = pg_fetch_row($result)) {
             echo "
                 <div class=\"col-lg-4 col-sm-6 portfolio-item\">
@@ -91,7 +90,11 @@ session_start();
                             <h4 class=\"card-title\">
                                 <a href=\"#\">$row[1]</a>
                             </h4>
+                            <h5 class=\"card-title\">
+                                <a href=\"#\">$row[4]</a>
+                            </h5>
                         <p class=\"card-text\">$row[2]</p>
+                        <h6 class=\"card - title\">$row[3]</h6 >
                         </div>
                     </div>
                 </div>";
