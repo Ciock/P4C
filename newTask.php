@@ -74,11 +74,11 @@
 <!-- Page Content -->
 <div class=\"container\">
     <h1 class=\"my-4\">New Campaign</h1>
-    <form action="php_logic/newCampaign.php" method="get">
+    <form action="php_logic/newTask.php" method="get">
             <input type="text" name="title" placeholder="Title">
             <input type="text" name="desc" placeholder="Description">
-            <input type="number" name="workers" placeholder="1">
-            <input type="number" step="0.01" name="magg" placeholder="0.7">
+            <input type="number" name="workers" placeholder="1" value="1" min="1">
+            <input type="number" step="0.01" min="0.0" name="magg" placeholder="0.7" value="0.7">
             <select name="campaign">
                 <?php
                 $result = pg_query_params($connection, "SELECT title FROM p4c.campaign WHERE requester = $1", array($_SESSION['login_user']));
