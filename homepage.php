@@ -158,11 +158,11 @@ session_start();
                             <form id='myform' method='get' action='tasks.php'>
                             <input type='hidden' name='campaign' value=$row[0]>
                                 <h4 class=\"card-title\" onclick=\"document.getElementById('myform').submit();\">
-                                    <a href=\"#\">$row[0]</a>
+                                    <a href=\"\">$row[0]</a>
                                 </h4>
                             </form>
-                            <p class=\"card-text\"> <strong>Data inizio:</strong>$row[2]</p>
-                            <h6 class=\"card-text\"><strong>Data fine:</strong>$row[3]</h6 >
+                            <p class=\"card-text\"> <strong>Data inizio: </strong>$row[2]</p>
+                            <h6 class=\"card-text\"><strong>Data fine: </strong>$row[3]</h6 >
                             </div>
                         </div>
                     </div>
