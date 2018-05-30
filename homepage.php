@@ -142,21 +142,26 @@ session_start();
 ";
             }
         } else if($isRequester){
-            echo "
-                <h1 class=\"my-4\">Campagna</h1>
+                echo "<h1 class=\"my-4\">Campagna</h1>";
+            $result = pg_query_params($connection, "SELECT * FROM p4c.campaign WHERE requester = $1;", array($_SESSION['login_user']));
+            if ($result == null)
+                echo "Fail during query";
+            while ($row = pg_fetch_row($result)) {
+                echo "
                 <div class=\"row\">
                     <div class=\"col-lg-4 col-sm-6 portfolio-item\">
                         <div class=\"card h-100\">
                             <div class=\"card-body\">
                                 <h4 class=\"card-title\">
-                                    <a href=\"#\">Titolo</a>
+                                    <a href=\"#\">$row[0]</a>
                                 </h4>
-                            <p class=\"card-text\"> <strong>Data inizio:</strong>11/11/1111</p>
-                            <h6 class=\"card-text\"><strong>Data fine:</strong>11/11/1111</h6 >
+                            <p class=\"card-text\"> <strong>Data inizio:</strong>$row[2]</p>
+                            <h6 class=\"card-text\"><strong>Data fine:</strong>$row[3]</h6 >
                             </div>
                         </div>
                     </div>
                 </div>";
+            }
         } else {
 
         }
