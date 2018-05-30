@@ -117,61 +117,29 @@ session_start();
 <!-- Page Content -->
 <div class="container">
     <?php
-    if ($isWorker) {
-        $result = pg_query_params($connection, "SELECT * FROM p4c.task_assignment($1);", array($_SESSION['login_user']));
-        if ($result == null)
-            echo "Fail during query";
-        while ($row = pg_fetch_row($result)) {
-            echo "
-                    <!-- Page Heading -->
-                    <h1 class=\"my-4\">Task</h1>
-                    <div class=\"row\">
-                        <div class=\"col-lg-4 col-sm-6 portfolio-item\">
-                            <div class=\"card h-100\">
-                                <div class=\"card-body\">
-                                    <h4 class=\"card-title\">
-                                        <a href=\"#\">$row[1]</a>
-                                    </h4>
-                                    <h5 class=\"card-title\">
-                                        <a href=\"#\">$row[4]</a>
-                                    </h5>
-                                <p class=\"card-text\"> <strong>Descrizione:</strong> $row[2]</p>
-                                <h6 class=\"card-text\"><strong>Requester:</strong> $row[3]</h6 >
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /.row -->
-";
-        }
-    } else if ($isRequester) {
-        echo "<h1 class=\"my-4\">Campagna</h1>";
-        $result = pg_query_params($connection, "SELECT * FROM p4c.campaign WHERE requester = $1;", array($_SESSION['login_user']));
-        if ($result == null)
-            echo "Fail during query";
-        while ($row = pg_fetch_row($result)) {
-            echo "
+    $campaign = $_REQUEST['campaign'];
+            echo "<h1 class=\"my-4\">Task</h1>";
+            $result = pg_query_params($connection, "SELECT * FROM p4c.task WHERE campaign = $1;", array($campaign));
+            if ($result == null)
+                echo "Fail during query";
+            while ($row = pg_fetch_row($result)) {
+                echo "
                 <div class=\"row\">
-                    <div class=\"col-lg-4 col-sm-6 portfolio-item\">
-                        <div class=\"card h-100\">
-                            <div class=\"card-body\">
-                            <form id='myform' method='get' action='tasks.php'>
-                            <input type='hidden' name='campaign' value=$row[0]>
-                                <h4 class=\"card-title\" onclick=\"document.getElementById('myform').submit();\">
-                                    <a href=\"#\">$row[0]</a>
-                                </h4>
-                            </form>
-                            <p class=\"card-text\"> <strong>Data inizio:</strong>$row[2]</p>
-                            <h6 class=\"card-text\"><strong>Data fine:</strong>$row[3]</h6 >
-                            </div>
-                        </div>
-                    </div>
-                </div>";
-        }
-    } else {
-
-    }
-    ?>
+                    <div class=\"col - lg - 4 col - sm - 6 portfolio - item\">
+                        <div class=\"card h - 100\">
+                            <div class=\"card - body\">
+                                <h4 class=\"card - title\">
+                                    <a href=\"#\">$row[1]</a>
+                                </h4 >
+                            <p class=\"card-text\" > <strong > Descrizione:</strong > $row[2]</p >
+                            <p class=\"card-text\" > <strong > Soglia di maggioranza:</strong > $row[5]</p >
+                            <p class=\"card-text\" > <strong > Risultato:</strong > $row[6]</p >
+                            </div >
+                        </div >
+                    </div >
+                </div >";
+            }
+        ?>
 </div>
 <!-- /.container -->
 <!-- Footer -->
