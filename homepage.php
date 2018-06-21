@@ -26,6 +26,7 @@ $connection = connettiDB();
 session_start();
 ?>
 
+
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
