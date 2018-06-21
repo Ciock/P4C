@@ -45,6 +45,15 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" href="stats.php">Report</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="newCampaign.php">New Campaign</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="newTask.php">New Taks</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="homepage.php">Homepage</a>
                         </li>
                         <li class="nav-item active">

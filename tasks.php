@@ -75,6 +75,9 @@ session_start();
                         <li class="nav-item">
                             <a class="nav-link" href="newTask.php">New Tasks</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="homepage.php">Homepage</a>
+                        </li>
                         <li class="nav-item active">
                             <a class="nav-link" href="php_logic/sessionClose.php">Logout
                                 <span class=" sr-only">(current)</span>
