@@ -73,7 +73,7 @@ session_start();
                             <a class="nav-link" href="newCampaign.php">New Campaign</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="newTask.php">New Taks</a>
+                            <a class="nav-link" href="newTask.php">New Tasks</a>
                         </li>
                         <li class="nav-item active">
                             <a class="nav-link" href="php_logic/sessionClose.php">Logout
@@ -132,8 +132,8 @@ session_start();
                                     <a href=\"#\">$row[1]</a>
                                 </h4 >
                             <p class=\"card-text\" > <strong > Descrizione:</strong > $row[2]</p >
-                            <p class=\"card-text\" > <strong > Soglia di maggioranza:</strong > $row[5]</p >
-                            <p class=\"card-text\" > <strong > Risultato:</strong > $row[6]</p >
+                            <p class=\"card-text\" > <strong > Soglia di maggioranza:</strong > $row[4]</p >
+                            <p class=\"card-text\" > <strong > Risultato:</strong > $row[5]</p >
                             </div >
                         </div >
                     </div >
