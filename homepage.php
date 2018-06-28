@@ -151,13 +151,14 @@ session_start();
         if ($result == null)
             echo "Fail during query";
         while ($row = pg_fetch_row($result)) {
+            $fetch = urlencode($row[0]);
             echo "
                 <div class=\"row\">
                     <div class=\"col-lg-4 col-sm-6 portfolio-item\">
                         <div class=\"card h-100\">
                             <div class=\"card-body\">
                             <form id='myform' method='GET' action='tasks.php'>
-                                <input type='hidden' name='campaign' value=$row[0]>
+                                <input type='hidden' name='campaign' value=$fetch>
                                 <h4 class=\"card-title\">$row[0]</h4>
                                 <input type='submit' value='Vedi Task'/>
                             </form>

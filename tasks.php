@@ -121,6 +121,7 @@ session_start();
 <div class="container">
     <?php
     $campaign = $_REQUEST['campaign'];
+    $campaign = urldecode($campaign);
             echo "<h1 class=\"my-4\">Task</h1>";
             $result = pg_query_params($connection, "SELECT * FROM p4c.task WHERE campaign = $1;", array($campaign));
             if ($result == null)
