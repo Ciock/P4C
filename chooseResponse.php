@@ -26,7 +26,6 @@ $connection = connettiDB();
 session_start();
 ?>
 
-
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
@@ -76,6 +75,9 @@ session_start();
                         <li class="nav-item">
                             <a class="nav-link" href="newTask.php">New Tasks</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="homepage.php">Homepage</a>
+                        </li>
                         <li class="nav-item active">
                             <a class="nav-link" href="php_logic/sessionClose.php">Logout
                                 <span class=" sr-only">(current)</span>
@@ -118,61 +120,47 @@ session_start();
 <!-- Page Content -->
 <div class="container">
     <?php
-    if ($isWorker) {
-        $result = pg_query_params($connection, "SELECT * FROM p4c.task_assignment($1);", array($_SESSION['login_user']));
-        if ($result == null)
-            echo "Fail during query";
-        while ($row = pg_fetch_row($result)) {
+    $task = $_REQUEST['task'];
+    $count = 0;
+    echo "<h1 class=\"my-4\">Risposte</h1>";
+    $result = pg_query_params($connection, "SELECT * FROM p4c.response WHERE task = $1;", array($task));
+    if ($result == null)
+        echo "Fail during query";
+    while ($row = pg_fetch_row($result)) {
+        $voti = pg_query_params($connection, "SELECT count(*) FROM p4c.made_response WHERE response = $1;", array($row[0]));
+        $v = pg_fetch_row($voti);
+        if ($isRequester) {
             echo "
-                    <!-- Page Heading -->
-                    <h1 class=\"my-4\">Task</h1>
                     <div class=\"row\">
-                        <div class=\"col-lg-4 col-sm-6 portfolio-item\">
-                            <div class=\"card h-100\">
-                                <div class=\"card-body\">
-                                    <form id=\'myform\' method='GET' action='chooseResponse.php'>
-                                       <input type='hidden' name='task' value=$row[0]>
-                                       <h4 class=\"card - title\">$row[1]</h4>
-                                       <input type='submit' value='Vedi Risposte'/>
-                                    </form>
-                                    <h5 class=\"card-title\">
-                                        <a href=\"#\">$row[4]</a>
-                                    </h5>
-                                <p class=\"card-text\"> <strong>Descrizione:</strong> $row[2]</p>
-                                <h6 class=\"card-text\"><strong>Requester:</strong> $row[3]</h6 >
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /.row -->
-";
-        }
-    } else if ($isRequester) {
-        echo "<h1 class=\"my-4\">Campagna</h1>";
-        $result = pg_query_params($connection, "SELECT * FROM p4c.campaign WHERE requester = $1;", array($_SESSION['login_user']));
-        if ($result == null)
-            echo "Fail during query";
-        while ($row = pg_fetch_row($result)) {
-            $fetch = urlencode($row[0]);
+                        <div class=\"col - lg - 4 col - sm - 6 portfolio - item\">
+                            <div class=\"card h - 100\">
+                                <div class=\"card - body\">
+                                    <h4 class=\"card - title\">
+                                        <a>$row[1]</a>
+                                    </h4 >
+                                <p class=\"card-text\" > <strong > Numero di risposte:</strong > $v[0]</p >
+                                </div >
+                            </div >
+                        </div >
+                    </div >";
+        } else if ($isWorker){
             echo "
-                <div class=\"row\">
-                    <div class=\"col-lg-4 col-sm-6 portfolio-item\">
-                        <div class=\"card h-100\">
-                            <div class=\"card-body\">
-                            <form id='myform' method='GET' action='tasks.php'>
-                                <input type='hidden' name='campaign' value=$fetch>
-                                <h4 class=\"card-title\">$row[0]</h4>
-                                <input type='submit' value='Vedi Task'/>
-                            </form>
-                            <p class=\"card-text\"> <strong>Data inizio:</strong>$row[2]</p>
-                            <h6 class=\"card-text\"><strong>Data fine:</strong>$row[3]</h6 >
-                            </div>
-                        </div>
-                    </div>
-                </div>";
+                    <div class=\"row\">
+                        <div class=\"col - lg - 4 col - sm - 6 portfolio - item\">
+                            <div class=\"card h - 100\">
+                                <div class=\"card - body\">
+                                    <h4 class=\"card - title\">
+                                        <a>$row[1]</a>
+                                    </h4 >
+                                <form id='myform' method='GET' action='php_logic/sendResponse.php'>
+                                    <input name='response' value=$row[0] type = 'hidden'>
+                                    <input type='submit' value='Send Answer'>
+                                </form>
+                                </div >
+                            </div >
+                        </div >
+                    </div >";
         }
-    } else {
-
     }
     ?>
 </div>
