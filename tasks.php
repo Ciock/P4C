@@ -127,13 +127,18 @@ session_start();
             if ($result == null)
                 echo "Fail during query";
             while ($row = pg_fetch_row($result)) {
+                $fetch = urlencode($row[1]);
                 echo "
                 <div class=\"row\">
                     <div class=\"col - lg - 4 col - sm - 6 portfolio - item\">
                         <div class=\"card h - 100\">
                             <div class=\"card - body\">
                                 <h4 class=\"card - title\">
-                                    <a href=\"#\">$row[1]</a>
+                                    <form id='myform' method='GET' action='chooseResponse.php'>
+                                       <input type='hidden' name='task' value=$row[0]>
+                                       <h4 class=\"card - title\">$row[1]</h4>
+                                       <input type='submit' value='Vedi Risposte'/>
+                                    </form>
                                 </h4 >
                             <p class=\"card-text\" > <strong > Descrizione:</strong > $row[2]</p >
                             <p class=\"card-text\" > <strong > Soglia di maggioranza:</strong > $row[4]</p >
