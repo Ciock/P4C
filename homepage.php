@@ -119,34 +119,38 @@ session_start();
 <div class="container">
     <?php
     if ($isWorker) {
+        echo "<h1 class=\"my-4\">Task</h1>";
         $result = pg_query_params($connection, "SELECT * FROM p4c.task_assignment($1);", array($_SESSION['login_user']));
         if ($result == null)
             echo "Fail during query";
-        while ($row = pg_fetch_row($result)) {
+        $row = pg_fetch_row($result);
+        $simbols = array("{", "}");
+        $tasks = explode(',', str_replace($simbols, "",$row[0] ));
+        foreach ($tasks as $t) {
+            $res = pg_query_params($connection, "SELECT * FROM p4c.task WHERE id=$1;", array($t));
+            $task = pg_fetch_row($res);
             echo "
                     <!-- Page Heading -->
-                    <h1 class=\"my-4\">Task</h1>
                     <div class=\"row\">
                         <div class=\"col-lg-4 col-sm-6 portfolio-item\">
                             <div class=\"card h-100\">
                                 <div class=\"card-body\">
                                     <form id=\'myform\' method='GET' action='chooseResponse.php'>
-                                       <input type='hidden' name='task' value=$row[0]>
-                                       <h4 class=\"card - title\">$row[1]</h4>
+                                       <input type='hidden' name='task' value=$task[0]>
+                                       <h4 class=\"card - title\">$task[1]</h4>
                                        <input type='submit' value='Vedi Risposte'/>
                                     </form>
-                                    <h5 class=\"card-title\">
-                                        <a href=\"#\">$row[4]</a>
-                                    </h5>
-                                <p class=\"card-text\"> <strong>Descrizione:</strong> $row[2]</p>
-                                <h6 class=\"card-text\"><strong>Requester:</strong> $row[3]</h6 >
+                                <p class=\"card-text\"> <strong>Descrizione:</strong> $task[2]</p>
+                                <h6 class=\"card-text\"><strong>Requester:</strong> $task[6]</h6 >
                                 </div>
                             </div>
                         </div>
                     </div>
                     <!-- /.row -->
+                    
 ";
         }
+
     } else if ($isRequester) {
         echo "<h1 class=\"my-4\">Campagna</h1>";
         $result = pg_query_params($connection, "SELECT * FROM p4c.campaign WHERE requester = $1;", array($_SESSION['login_user']));
