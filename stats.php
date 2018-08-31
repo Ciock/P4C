@@ -79,25 +79,28 @@ if ($result == null)
 while ($row = pg_fetch_row($result)) {
     echo "
 <div class=\"container\">
-    <h1 class=\"my-4\">Posizione: $row[2]
-    </h1>
+    <h2 class=\"my-4\">Posizione: $row[2]</h2>
+    <h2 class=\"my-4\">Punteggio: $row[1]</h2>
 </div>
-<div class=\"container\">
 
+<div class=\"container\">
     <!-- Page Heading -->
-    <h1 class=\"my-4\">Task Eseguiti</h1>";
+    <h2 class=\"my-4\">Task Eseguiti</h2>";
     $removeParentesi = array("{","}");
     $eseguitiCleared = str_replace($removeParentesi, "", $row[3]);
     $eseguitiArray = explode(',',$eseguitiCleared);
     foreach ($eseguitiArray as $item) {
+        $task = pg_query_params($connection, "SELECT * FROM p4c.task WHERE id = $1;", array($item));
+        $taskArray = pg_fetch_row(($task));
         echo "
         <div class=\"row\">
-            <div class=\"col-lg-4 col-sm-6 portfolio-item\">
-                <div class=\"card h-100\">
-                    <div class=\"card-body\">
-                        <h4 class=\"card-title\">
-                            <a href=\"#\">$item</a>
-                        </h4>
+            <div class=\"col - lg - 4 col - sm - 6 portfolio - item\">
+                <div class=\"card h - 100\">
+                    <div class=\"card - body\">
+                        <input type='hidden' name='task' value=$taskArray[0]>
+                        <h4 class=\"card - title\">$taskArray[1]</h4>
+                        <p class=\"card - text\"> <strong>Descrizione:</strong> $taskArray[2]</p>
+                        <h6 class=\"card - text\"><strong>Requester:</strong> $taskArray[6]</h6 >
                     </div>
                 </div>
             </div>
@@ -109,23 +112,26 @@ echo "
 <div class=\"container\">
 
 <!-- Page Heading -->
-<h1 class=\"my-4\">Task Validi</h1>";
+<h2 class=\"my-4\">Task Validi</h2>";
 $removeParentesi = array("{","}");
 $eseguitiCleared = str_replace($removeParentesi, "", $row[4]);
 $eseguitiArray = explode(',',$eseguitiCleared);
 foreach ($eseguitiArray as $item) {
+    $taskEseguiti = pg_query_params($connection, "SELECT * FROM p4c.task WHERE id = $1;", array($item));
+    $taskEseguitiArray = pg_fetch_row(($taskEseguiti));
     echo "
-<div class=\"row\">
-    <div class=\"col-lg-4 col-sm-6 portfolio-item\">
-        <div class=\"card h-100\">
-            <div class=\"card-body\">
-                <h4 class=\"card-title\">
-                    <a href=\"#\">$item</a>
-                </h4>
+        <div class=\"row\">
+            <div class=\"col - lg - 4 col - sm - 6 portfolio - item\">
+                <div class=\"card h - 100\">
+                    <div class=\"card - body\">
+                        <input type='hidden' name='task' value=$taskEseguitiArray[0]>
+                        <h4 class=\"card - title\">$taskEseguitiArray[1]</h4>
+                        <p class=\"card - text\"> <strong>Descrizione:</strong> $taskEseguitiArray[2]</p>
+                        <h6 class=\"card - text\"><strong>Requester:</strong> $taskEseguitiArray[6]</h6 >
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-</div>";
+        </div>";
 }
 echo "
 <!-- /.row -->
