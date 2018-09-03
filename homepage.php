@@ -28,6 +28,7 @@ session_start();
 
 
 <!-- Navigation -->
+<img src="immagini\immagineDBHomepage.jpg" alt="Immagine DB" width="100%">
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
