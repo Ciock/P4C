@@ -122,7 +122,21 @@ session_start();
     <?php
     $campaign = $_REQUEST['campaign'];
     $campaign = urldecode($campaign);
-            echo "<h1 class=\"my-4\">Task</h1>";
+    $result = pg_query_params($connection, "SELECT count(*) FROM p4c.task WHERE campaign = $1;", array($campaign));
+    $row = pg_fetch_row($result);
+    $numTask = $row[0];
+    $result = pg_query_params($connection, "SELECT count(*) FROM p4c.task WHERE campaign = $1 AND result IS TRUE ;", array($campaign));
+    $row = pg_fetch_row($result);
+    $numTaskValidi = $row[0];
+    $ratioTask = ($numTaskValidi/($numTask*1.0))*100;
+    $ratioTask = number_format($ratioTask, 2, ',', '');
+
+            echo "
+                <h1 class=\"my-4\">Created Task</h1> <h2> $numTask</h2>
+                <h1 class=\"my-4\">Completed Task</h1> <h2> $numTaskValidi</h2>       
+                <h1 class=\"my-4\">Ratio Task</h1> <h2> $ratioTask%</h2>       
+                <h1 class=\"my-4\">Task</h1>        
+            ";
             $result = pg_query_params($connection, "SELECT * FROM p4c.task WHERE campaign = $1;", array($campaign));
             if ($result == null)
                 echo "Fail during query";
