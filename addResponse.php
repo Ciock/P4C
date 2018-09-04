@@ -74,6 +74,7 @@
 <!-- Page Content -->
 <?php
     $title = $_REQUEST['task'];
+    $title = urlencode($title);
     echo " 
     <div class=\"container\">
     <h1 class=\"my - 4\">Add Response</h1>

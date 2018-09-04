@@ -73,7 +73,7 @@
 
 <!-- Page Content -->
 <div class=\"container\">
-    <h1 class=\"my-4\">New Campaign</h1>
+    <h1 class=\"my-4\">New Task</h1>
     <form action="php_logic/newTask.php" method="get">
             <input type="text" name="title" placeholder="Title">
             <input type="text" name="desc" placeholder="Description">
@@ -82,6 +82,14 @@
             <select name="campaign">
                 <?php
                 $result = pg_query_params($connection, "SELECT title FROM p4c.campaign WHERE requester = $1", array($_SESSION['login_user']));
+                while ($row = pg_fetch_row($result)) {
+                    echo "<option>$row[0]</option>";
+                }
+                ?>
+            </select>
+            <select multiple name="keywords[]">
+                <?php
+                $result = pg_query_params($connection, "SELECT keyword FROM p4c.keyword WHERE $1 = $1", array($_SESSION['login_user']));
                 while ($row = pg_fetch_row($result)) {
                     echo "<option>$row[0]</option>";
                 }
