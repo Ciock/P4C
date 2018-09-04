@@ -90,7 +90,7 @@ while ($row = pg_fetch_row($result)) {
     $eseguitiCleared = str_replace($removeParentesi, "", $row[3]);
     $eseguitiArray = explode(',',$eseguitiCleared);
     foreach ($eseguitiArray as $item) {
-        $task = pg_query_params($connection, "SELECT * FROM p4c.task WHERE id = $1;", array($item));
+        $task = pg_query_params($connection, "SELECT * FROM p4c.task WHERE titolo = $1;", array($item));
         $taskArray = pg_fetch_row(($task));
         echo "
         <div class=\"row\">
@@ -117,17 +117,17 @@ $removeParentesi = array("{","}");
 $eseguitiCleared = str_replace($removeParentesi, "", $row[4]);
 $eseguitiArray = explode(',',$eseguitiCleared);
 foreach ($eseguitiArray as $item) {
-    $taskEseguiti = pg_query_params($connection, "SELECT * FROM p4c.task WHERE id = $1;", array($item));
-    $taskEseguitiArray = pg_fetch_row(($taskEseguiti));
+    $taskValidi = pg_query_params($connection, "SELECT * FROM p4c.task WHERE titolo = $1;", array($item));
+    $taskValidiArray = pg_fetch_row(($taskValidi));
     echo "
         <div class=\"row\">
             <div class=\"col - lg - 4 col - sm - 6 portfolio - item\">
                 <div class=\"card h - 100\">
                     <div class=\"card - body\">
-                        <input type='hidden' name='task' value=$taskEseguitiArray[0]>
-                        <h4 class=\"card - title\">$taskEseguitiArray[1]</h4>
-                        <p class=\"card - text\"> <strong>Descrizione:</strong> $taskEseguitiArray[2]</p>
-                        <h6 class=\"card - text\"><strong>Requester:</strong> $taskEseguitiArray[6]</h6 >
+                        <input type='hidden' name='task' value=$taskValidiArray[0]>
+                        <h4 class=\"card - title\">$taskValidiArray[1]</h4>
+                        <p class=\"card - text\"> <strong>Descrizione:</strong> $taskValidiArray[2]</p>
+                        <h6 class=\"card - text\"><strong>Requester:</strong> $taskValidiArray[6]</h6 >
                     </div>
                 </div>
             </div>
