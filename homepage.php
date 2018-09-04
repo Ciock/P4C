@@ -128,6 +128,8 @@ session_start();
         foreach ($tasks as $t) {
             $res = pg_query_params($connection, "SELECT * FROM p4c.task WHERE id=$1;", array($t));
             $task = pg_fetch_row($res);
+            $doubleResponse = pg_query_params($connection, "SELECT * FROM p4c.made_response JOIN p4c.response ON response=id WHERE task=$1 and worker= $2;", array($t, $_SESSION['login_user']));
+            if(!pg_fetch_row($doubleResponse)){
             echo "
                     <!-- Page Heading -->
                     <div class=\"row\">
@@ -148,7 +150,7 @@ session_start();
                     <!-- /.row -->
                     
 ";
-        }
+        }}
 
     } else if ($isRequester) {
         echo "<h1 class=\"my-4\">Campagna</h1>";
