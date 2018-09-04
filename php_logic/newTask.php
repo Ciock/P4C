@@ -13,7 +13,7 @@ $campaign = $_REQUEST['campaign'];
 $tresh = doubleval($tresh);
 
 $query = "INSERT INTO p4c.task(titolo, description, n_worker, majority_threshold, requester, campaign) VALUES ($1, $2, $3, $4, $5, $6)";
-
 $done = pg_query_params($connection, $query, array($title, $description, $workers, $tresh, $requester, $campaign));
 
-header("Location:/P4C/homepage.php");
+$header = "Location:/P4C/addResponse.php?task=".$title;
+header($header);
