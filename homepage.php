@@ -220,12 +220,13 @@ session_start();
         }
     } else if ($isAdmin) {
             echo "<h1 class=\"my-4\">New Requesters</h1>";
-            $result = pg_query_params($connection, "SELECT * FROM p4c.requester WHERE validated IS $1", False);
-            if ($result == null)
+            $result = pg_query_params($connection, "SELECT username FROM p4c.requester WHERE validated = $1", array('f'));
+            if (empty($result)) {
                 echo "No new requesters to be validated";
-            while ($row = pg_fetch_row($result)) {
-                $fetch = urlencode($row[0]);
-                echo "
+            } else {
+                while ($row = pg_fetch_row($result)) {
+                    $fetch = urlencode($row[0]);
+                    echo "
                 <div class=\"row\">
                     <div class=\"col-lg-4 col-sm-6 portfolio-item\">
                         <div class=\"card h-100\">
@@ -239,6 +240,7 @@ session_start();
                         </div>
                     </div>
                 </div>";
+                }
             }
     } else {
 
