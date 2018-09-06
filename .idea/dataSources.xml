@@ -6,6 +6,9 @@
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
       <jdbc-url>jdbc:postgresql://localhost:5433/postgres</jdbc-url>
+      <driver-properties>
+        <property name="tcpKeepAlive" value="true" />
+      </driver-properties>
     </data-source>
   </component>
 </project>

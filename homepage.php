@@ -41,6 +41,8 @@ session_start();
                     $isWorker = pg_fetch_row($isWorker);
                     $isRequester = pg_query_params($connection, "SELECT * FROM p4c.requester WHERE username = $1", array($_SESSION['login_user']));
                     $isRequester = pg_fetch_row($isRequester);
+                    $isAdmin = pg_query_params($connection, "SELECT * FROM p4c.admin WHERE admin_name = $1", array($_SESSION['login_user']));
+                    $isAdmin = pg_fetch_row($isAdmin);
                     if ($isWorker) {
                         echo '
                         <li class="nav-item">
@@ -59,11 +61,29 @@ session_start();
                         </li>
                     ';
                     } else if ($isRequester) {
-                        echo '
+                        $query = "SELECT validated FROM p4c.requester WHERE username = $1";
+                        $result = pg_query_params($connection, $query, array($_SESSION['login_user']));
+                        $val = pg_fetch_result($result, 0, 0);
+                        if ($val == 'f') {
+                            echo '
                         <li class="nav-item">
                             <a class="nav-link">';
-                        echo $_SESSION['login_user'];
-                        echo '
+                                echo $_SESSION['login_user'];
+                                echo '
+                            </a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="php_logic/sessionClose.php">Logout
+                                <span class=" sr-only">(current)</span>
+                            </a>
+                        </li>
+                    ';
+                            } else {
+                                echo '
+                        <li class="nav-item">
+                            <a class="nav-link">';
+                                echo $_SESSION['login_user'];
+                                echo '
                             </a>
                         </li>
                         <li class="nav-item">
@@ -78,12 +98,15 @@ session_start();
                             </a>
                         </li>
                     ';
-                    } else {
-                        echo '
+                            }
+                    }
+                    else
+                        if ($isAdmin) {
+                            echo '
                         <li class="nav-item">
                             <a class="nav-link">';
-                        echo $_SESSION['login_user'];
-                        echo '
+                            echo $_SESSION['login_user'];
+                            echo '
                             </a>
                         </li>
                         <li class="nav-item active">
@@ -92,7 +115,21 @@ session_start();
                             </a>
                         </li>
                     ';
-                    }
+                        } else {
+                            echo '
+                        <li class="nav-item">
+                            <a class="nav-link">';
+                            echo $_SESSION['login_user'];
+                            echo '
+                            </a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="php_logic/sessionClose.php">Logout
+                                <span class=" sr-only">(current)</span>
+                            </a>
+                        </li>
+                    ';
+                        }
                 } else {
                     echo '
                         <li class="nav-item active">
@@ -121,13 +158,13 @@ session_start();
             echo "Fail during query";
         $row = pg_fetch_row($result);
         $simbols = array("{", "}");
-        $tasks = explode(',', str_replace($simbols, "",$row[0] ));
+        $tasks = explode(',', str_replace($simbols, "", $row[0]));
         foreach ($tasks as $t) {
             $res = pg_query_params($connection, "SELECT * FROM p4c.task WHERE id=$1;", array($t));
             $task = pg_fetch_row($res);
             $doubleResponse = pg_query_params($connection, "SELECT * FROM p4c.made_response JOIN p4c.response ON response=id WHERE task=$1 and worker= $2;", array($t, $_SESSION['login_user']));
-            if(!pg_fetch_row($doubleResponse)){
-            echo "
+            if (!pg_fetch_row($doubleResponse)) {
+                echo "
                     <!-- Page Heading -->
                     <div class=\"row\">
                         <div class=\"col-lg-4 col-sm-6 portfolio-item\">
@@ -147,32 +184,62 @@ session_start();
                     <!-- /.row -->
                     
 ";
-        }}
+            }
+        }
 
     } else if ($isRequester) {
-        echo "<h1 class=\"my-4\">Campagna</h1>";
-        $result = pg_query_params($connection, "SELECT * FROM p4c.campaign WHERE requester = $1;", array($_SESSION['login_user']));
-        if ($result == null)
-            echo "Fail during query";
-        while ($row = pg_fetch_row($result)) {
-            $fetch = urlencode($row[0]);
-            echo "
+        $query = "SELECT validated FROM p4c.requester WHERE username = $1";
+        $result = pg_query_params($connection, $query, array($_SESSION['login_user']));
+        $val = pg_fetch_result($result, 0, 0);
+        if ($val == 'f') {
+            echo "Wait until you're validated to the system!";
+        }else{
+            echo "<h1 class=\"my-4\">Campagna</h1>";
+            $result = pg_query_params($connection, "SELECT * FROM p4c.campaign WHERE requester = $1;", array($_SESSION['login_user']));
+            if ($result == null)
+                echo "Fail during query";
+            while ($row = pg_fetch_row($result)) {
+                $fetch = urlencode($row[0]);
+                echo "
+                    <div class=\"row\">
+                        <div class=\"col-lg-4 col-sm-6 portfolio-item\">
+                            <div class=\"card h-100\">
+                                <div class=\"card-body\">
+                                <form id='myform' method='GET' action='tasks.php'>
+                                    <input type='hidden' name='campaign' value=$fetch>
+                                    <h4 class=\"card-title\">$row[0]</h4>
+                                    <input type='submit' value='Vedi Task'/>
+                                </form>
+                                <p class=\"card-text\"> <strong>Data inizio:</strong>$row[2]</p>
+                                <h6 class=\"card-text\"><strong>Data fine:</strong>$row[3]</h6 >
+                                </div>
+                            </div>
+                        </div>
+                    </div>";
+            }
+        }
+    } else if ($isAdmin) {
+            echo "<h1 class=\"my-4\">New Requesters</h1>";
+            $result = pg_query_params($connection, "SELECT * FROM p4c.requester WHERE validated IS $1", False);
+            if ($result == null)
+                echo "No new requesters to be validated";
+            while ($row = pg_fetch_row($result)) {
+                $fetch = urlencode($row[0]);
+                echo "
                 <div class=\"row\">
                     <div class=\"col-lg-4 col-sm-6 portfolio-item\">
                         <div class=\"card h-100\">
                             <div class=\"card-body\">
-                            <form id='myform' method='GET' action='tasks.php'>
-                                <input type='hidden' name='campaign' value=$fetch>
+                            <form id='myform' method='GET' action='php_logic/validateUsers.php'>
+                                <input type='hidden' name='requester' value=$fetch>
                                 <h4 class=\"card-title\">$row[0]</h4>
-                                <input type='submit' value='Vedi Task'/>
+                                <input type='submit' value='Accetta il requester'/>
                             </form>
-                            <p class=\"card-text\"> <strong>Data inizio:</strong>$row[2]</p>
-                            <h6 class=\"card-text\"><strong>Data fine:</strong>$row[3]</h6 >
                             </div>
                         </div>
                     </div>
                 </div>";
-        }
+            }
     } else {
 
     }
