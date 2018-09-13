@@ -86,10 +86,11 @@ while ($row = pg_fetch_row($result)) {
 <div class=\"container\">
     <!-- Page Heading -->
     <h2 class=\"my-4\">Task Eseguiti</h2>";
-    $removeParentesi = array("{","}");
+    $removeParentesi = array("{", "}");
     $eseguitiCleared = str_replace($removeParentesi, "", $row[3]);
-    $eseguitiArray = explode(',',$eseguitiCleared);
+    $eseguitiArray = explode(',', $eseguitiCleared);
     foreach ($eseguitiArray as $item) {
+        $item = str_replace("\"", "", $item);
         $task = pg_query_params($connection, "SELECT * FROM p4c.task WHERE titolo = $1;", array($item));
         $taskArray = pg_fetch_row(($task));
         echo "
@@ -107,19 +108,20 @@ while ($row = pg_fetch_row($result)) {
         </div>
 <!-- /.row -->";
     }
-echo "
+    echo "
 </div>
 <div class=\"container\">
 
 <!-- Page Heading -->
 <h2 class=\"my-4\">Task Validi</h2>";
-$removeParentesi = array("{","}");
-$eseguitiCleared = str_replace($removeParentesi, "", $row[4]);
-$eseguitiArray = explode(',',$eseguitiCleared);
-foreach ($eseguitiArray as $item) {
-    $taskValidi = pg_query_params($connection, "SELECT * FROM p4c.task WHERE titolo = $1;", array($item));
-    $taskValidiArray = pg_fetch_row(($taskValidi));
-    echo "
+    $removeParentesi = array("{", "}");
+    $eseguitiCleared = str_replace($removeParentesi, "", $row[4]);
+    $eseguitiArray = explode(',', $eseguitiCleared);
+    foreach ($eseguitiArray as $item) {
+        $item = str_replace("\"", "", $item);
+        $taskValidi = pg_query_params($connection, "SELECT * FROM p4c.task WHERE titolo = $1;", array($item));
+        $taskValidiArray = pg_fetch_row(($taskValidi));
+        echo "
         <div class=\"row\">
             <div class=\"col - lg - 4 col - sm - 6 portfolio - item\">
                 <div class=\"card h - 100\">
@@ -132,8 +134,8 @@ foreach ($eseguitiArray as $item) {
                 </div>
             </div>
         </div>";
-}
-echo "
+    }
+    echo "
 <!-- /.row -->
 </div>
 <!-- /.container -->
