@@ -74,6 +74,7 @@ session_start();
 <!-- Page Content -->
 <?php
 $result = pg_query_params($connection, "SELECT * FROM p4c.stats($1);", array($_SESSION['login_user']));
+$skills = pg_query_params($connection, "SELECT * FROM p4c.got_skills WHERE worker=$1;", array($_SESSION['login_user']));
 if ($result == null)
     echo "Fail during query";
 while ($row = pg_fetch_row($result)) {
@@ -81,8 +82,14 @@ while ($row = pg_fetch_row($result)) {
 <div class=\"container\">
     <h2 class=\"my-4\">Posizione: $row[2]</h2>
     <h2 class=\"my-4\">Punteggio: $row[1]</h2>
-</div>
-
+</div>";
+    while ($skill = pg_fetch_row($skills)) {
+        echo "
+<div class=\"container\">
+    <h4 class=\"my-4\">$skill[1]: $skill[2]</h4>
+</div>";
+    }
+    echo "
 <div class=\"container\">
     <!-- Page Heading -->
     <h2 class=\"my-4\">Task Eseguiti</h2>";

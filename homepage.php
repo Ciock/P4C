@@ -53,7 +53,7 @@ session_start();
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="stats.php">Stats</a>
+                            <a class="nav-link" href="stats.php">Profile</a>
                         </li>
                         <li class="nav-item active">
                             <a class="nav-link" href="php_logic/sessionClose.php">Logout
@@ -73,7 +73,7 @@ session_start();
                             <a class="nav-link" href="newCampaign.php">New Campaign</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="newTask.php">New Tasks</a>
+                            <a class="nav-link" href="newTask.php">New Task</a>
                         </li>
                         <li class="nav-item active">
                             <a class="nav-link" href="php_logic/sessionClose.php">Logout

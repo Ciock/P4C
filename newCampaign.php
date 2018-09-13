@@ -48,7 +48,7 @@
                             <a class="nav-link" href="newCampaign.php">New Campaign</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="newTask.php">New Tasks</a>
+                            <a class="nav-link" href="newTask.php">New Task</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="homepage.php">Homepage</a>
