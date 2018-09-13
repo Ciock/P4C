@@ -81,7 +81,7 @@
             <input type="number" step="0.01" min="0.0" name="magg" placeholder="0.7" value="0.7">
             <select name="campaign">
                 <?php
-                $result = pg_query_params($connection, "SELECT title FROM p4c.campaign WHERE requester = $1", array($_SESSION['login_user']));
+                $result = pg_query_params($connection, "SELECT title FROM p4c.campaign WHERE requester = $1 AND (now()::date BETWEEN opening_date AND registration_deadline_date)", array($_SESSION['login_user']));
                 while ($row = pg_fetch_row($result)) {
                     echo "<option>$row[0]</option>";
                 }

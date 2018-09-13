@@ -144,6 +144,7 @@ session_start();
                         </div >
                     </div >";
         } else if ($isWorker){
+            $camp = $_REQUEST['campaign'];
             echo "
                     <div class=\"row\">
                         <div class=\"col - lg - 4 col - sm - 6 portfolio - item\">
@@ -154,6 +155,7 @@ session_start();
                                     </h4 >
                                 <form id='myform' method='GET' action='php_logic/sendResponse.php'>
                                     <input name='response' value=$row[0] type = 'hidden'>
+                                    <input name='camp' value=$camp type = 'hidden'>
                                     <input type='submit' value='Send Answer'>
                                 </form>
                                 </div >

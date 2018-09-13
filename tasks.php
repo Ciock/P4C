@@ -142,6 +142,7 @@ session_start();
                 echo "Fail during query";
             while ($row = pg_fetch_row($result)) {
                 $fetch = urlencode($row[1]);
+                $campaign = urlencode($campaign);
                 echo "
                 <div class=\"row\">
                     <div class=\"col - lg - 4 col - sm - 6 portfolio - item\">
@@ -150,6 +151,7 @@ session_start();
                                 <h4 class=\"card - title\">
                                     <form id='myform' method='GET' action='chooseResponse.php'>
                                        <input type='hidden' name='task' value=$row[0]>
+                                       <input type='hidden' name='campaign' value=$campaign>
                                        <h4 class=\"card - title\">$row[1]</h4>
                                        <input type='submit' value='Vedi Risposte'/>
                                     </form>
@@ -158,7 +160,7 @@ session_start();
                             <p class=\"card-text\" > <strong > Soglia di maggioranza:</strong > $row[4]</p > ";
                 //TODO: risposta con più voti
                             if($row[5] == 't')
-                                echo "<p class=\"card-text\" > <strong > Risultato:</strong > valido</p > ";
+                                echo "<p class=\"card-text\" > <strong > Risultato:</strong > $res</p > ";
                             elseif ($row[5] == 'f')
                                 echo "<p class=\"card-text\" > <strong > Risultato:</strong > inconcludente</p > ";
                             else

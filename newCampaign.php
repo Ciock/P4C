@@ -51,7 +51,7 @@
                             <a class="nav-link" href="newCampaign.php">New Campaign</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="newTask.php">New Taks</a>
+                            <a class="nav-link" href="newTask.php">New Tasks</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="homepage.php">Homepage</a>
@@ -83,9 +83,11 @@
 <!-- Page Content -->
 <div class=\"container\">
     <h1 class=\"my-4\">New Campaign</h1>
+    <h4 class=text-dark>Title, Deadline date, Registration deadline date</h4>
     <form action="php_logic/newCampaign.php" method="get">
             <input type="text" name="name" placeholder="Titolo">
             <input type="date" name="date" placeholder="Expiration Date">
+            <input type="date" name="reg_date" placeholder="Registration Date">
             <input type="submit" name="button" value="Create">
     </form>
 </div>
