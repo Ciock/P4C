@@ -158,13 +158,12 @@ session_start();
                                 </h4 >
                             <p class=\"card-text\" > <strong > Descrizione:</strong > $row[2]</p >
                             <p class=\"card-text\" > <strong > Soglia di maggioranza:</strong > $row[4]</p > ";
-                //TODO: risposta con più voti
                             if($row[5] == 't')
-                                echo "<p class=\"card-text\" > <strong > Risultato:</strong > $res</p > ";
+                                echo "<p color=\"red\" class=\"card-text\"> <strong>Maggioranza Raggiunta</strong></p> ";
                             elseif ($row[5] == 'f')
-                                echo "<p class=\"card-text\" > <strong > Risultato:</strong > inconcludente</p > ";
+                                echo "<p class=\"card-text\" > <strong > Risultato:</strong > Non si è raggiunta la maggioranza richiesta</p > ";
                             else
-                                echo "<p class=\"card-text\" > <strong > Risultato:</strong > non terminato</p > ";
+                                echo "<p class=\"card-text\" > <strong > Risultato:</strong > In corso</p > ";
 
                             echo "</div >
                         </div >
