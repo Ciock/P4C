@@ -170,28 +170,65 @@ session_start();
             }
         }
     } else if ($isRequester) {
-        echo "<h1 class=\"my-4\">Campagna</h1>";
-        $result = pg_query_params($connection, "SELECT * FROM p4c.campaign WHERE requester = $1;", array($_SESSION['login_user']));
-        if ($result == null)
-            echo "Fail during query";
-        while ($row = pg_fetch_row($result)) {
-            $fetch = urlencode($row[0]);
-            echo "
-                <div class=\"row\">
-                    <div class=\"col-lg-4 col-sm-6 portfolio-item\">
-                        <div class=\"card h-100\">
-                            <div class=\"card-body\">
-                            <form id='myform' method='GET' action='tasks.php'>
-                                <input type='hidden' name='campaign' value=$fetch>
-                                <h4 class=\"card-title\">$row[0]</h4>
-                                <input type='submit' value='Vedi Task'/>
-                            </form>
-                            <p class=\"card-text\"> <strong>Data inizio:</strong>$row[2]</p>
-                            <h6 class=\"card-text\"><strong>Data fine:</strong>$row[3]</h6 >
+        $query = "SELECT validated FROM p4c.requester WHERE username = $1";
+        $result = pg_query_params($connection, $query, array($_SESSION['login_user']));
+        $val = pg_fetch_result($result, 0, 0);
+        if ($val == 'f') {
+            echo "Wait until you're validated to the system!";
+        }else{
+            echo "<h1 class=\"my-4\">Campagna</h1>";
+            $result = pg_query_params($connection, "SELECT * FROM p4c.campaign AS C WHERE C.requester = $1;", array($_SESSION['login_user']));
+            if ($result == null) {
+                echo "Fail during query";
+            }
+            while ($row = pg_fetch_row($result)) {
+                $fetch = urlencode($row[0]);
+                echo "
+                    <div class=\"row\">
+                        <div class=\"col-lg-4 col-sm-6 portfolio-item\">
+                            <div class=\"card h-100\">
+                                <div class=\"card-body\">
+                                <form id='myform' method='GET' action='tasks.php'>
+                                    <input type='hidden' name='campaign' value=$fetch>
+                                    <h4 class=\"card-title\">$row[0]</h4>
+                                    <input type='submit' value='Vedi Task'/>
+                                </form>
+                                <p class=\"card-text\"> <strong>Opening Date: </strong>$row[2]</p>
+                                <h6 class=\"card-text\"><strong>Registration Deadline: </strong>$row[3]</h6 >
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>";
+                    </div>";
+            }
+            echo "<h2> Visualize the report! </h2>";
+            $query = "SELECT * FROM p4c.campaign AS C WHERE (now()::date NOT BETWEEN C.opening_date AND C.registration_deadline_date) AND C.requester = $1;";
+            $result = pg_query_params($connection, $query, array($_SESSION['login_user']));
+            if ($result != null) {
+                echo "<div class=\"row\">
+                        <div class=\"col - lg - 4 col - sm - 6 portfolio - item\">
+                            <div class=\"card h - 100\">
+                                <div class=\"card - body\">
+                                    <input type='hidden' name='campaign' value=$fetch>
+                                    <h4 class=\"card - title\">$row[0]</h4>";
+            }
+            while ($row = pg_fetch_row($result)) {
+                $fetch = urlencode($row[0]);
+                echo "
+                    <div class=\"row\">
+                        <div class=\"col-lg-4 col-sm-6 portfolio-item\">
+                            <div class=\"card h-100\">
+                                <div class=\"card-body\">
+                                <form id='myform' method='GET' action='report.php'>
+                                    <input type='hidden' name='campaign' value=$fetch>
+                                    <h4 class=\"card-title\">$row[0]</h4>
+                                    <input type='submit' value='Report'/>
+                                </form>
+                                <h6 class=\"card-text\"><strong>Registration Deadline:</strong>$row[3]</h6 >
+                                </div>
+                            </div>
+                        </div>
+                    </div>";
+            }
         }
     } else if ($isAdmin) {
         echo "<h1 class=\"my-4\">New Requesters</h1>";
