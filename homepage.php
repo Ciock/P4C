@@ -15,6 +15,7 @@
 
     <!-- Custom styles for this template -->
     <link href="css/3-col-portfolio.css" rel="stylesheet">
+
 </head>
 
 <body>
@@ -61,30 +62,15 @@ session_start();
                         </li>
                     ';
                     } else if ($isRequester) {
-                        $query = "SELECT validated FROM p4c.requester WHERE username = $1";
-                        $result = pg_query_params($connection, $query, array($_SESSION['login_user']));
-                        $val = pg_fetch_result($result, 0, 0);
-                        if ($val == 'f') {
-                            echo '
+                        echo '
                         <li class="nav-item">
                             <a class="nav-link">';
-                                echo $_SESSION['login_user'];
-                                echo '
+                        echo $_SESSION['login_user'];
+                        echo '
                             </a>
                         </li>
-                        <li class="nav-item active">
-                            <a class="nav-link" href="php_logic/sessionClose.php">Logout
-                                <span class=" sr-only">(current)</span>
-                            </a>
-                        </li>
-                    ';
-                            } else {
-                                echo '
                         <li class="nav-item">
-                            <a class="nav-link">';
-                                echo $_SESSION['login_user'];
-                                echo '
-                            </a>
+                            <a class="nav-link" href="stats.php">Report</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="newCampaign.php">New Campaign</a>
@@ -98,9 +84,7 @@ session_start();
                             </a>
                         </li>
                     ';
-                            }
-                    }
-                    else
+                    } else
                         if ($isAdmin) {
                             echo '
                         <li class="nav-item">
@@ -156,17 +140,13 @@ session_start();
         $result = pg_query_params($connection, "SELECT * FROM p4c.task_assignment($1);", array($_SESSION['login_user']));
         if ($result == null)
             echo "Fail during query";
-        $row = pg_fetch_row($result);
-        $simbols = array("{", "}");
-        $tasks = explode(',', str_replace($simbols, "", $row[0]));
-        // DEBUG: echo $tasks;
-        foreach ($tasks as $t) {
-            $res = pg_query_params($connection, "SELECT * FROM p4c.task WHERE id = $1;", array($t));
-            // DEBUG: echo $res;
+        while ($t = pg_fetch_row($result)) {
+            // echo pg_num_rows($result);
+            $res = pg_query_params($connection, "SELECT * FROM p4c.task WHERE id=$1;", array($t[0]));
             $task = pg_fetch_row($res);
-            // DEBUG: echo $task;
-            $doubleResponse = pg_query_params($connection, "SELECT * FROM p4c.made_response JOIN p4c.response ON response=id WHERE task=$1 and worker= $2;", array($t, $_SESSION['login_user']));
-            if (!pg_fetch_row($doubleResponse)) {
+            $doubleResponse = pg_query_params($connection,"SELECT * FROM p4c.made_response JOIN p4c.response ON made_response.response = id WHERE task = $1 AND worker = $2",array($t[0],$_SESSION['login_user']));
+            $isdoubleResponse = pg_fetch_row($doubleResponse);
+            if (pg_num_rows($doubleResponse) == 0) {
                 echo "
                     <!-- Page Heading -->
                     <div class=\"row\">
@@ -185,80 +165,43 @@ session_start();
                         </div>
                     </div>
                     <!-- /.row -->
-                   
+                    
                 ";
             }
         }
     } else if ($isRequester) {
-        $query = "SELECT validated FROM p4c.requester WHERE username = $1";
-        $result = pg_query_params($connection, $query, array($_SESSION['login_user']));
-        $val = pg_fetch_result($result, 0, 0);
-        if ($val == 'f') {
-            echo "Wait until you're validated to the system!";
-        }else{
-            echo "<h1 class=\"my-4\">Campagna</h1>";
-            $result = pg_query_params($connection, "SELECT * FROM p4c.campaign AS C WHERE C.requester = $1;", array($_SESSION['login_user']));
-            if ($result == null) {
-                echo "Fail during query";
-            }
+        echo "<h1 class=\"my-4\">Campagna</h1>";
+        $result = pg_query_params($connection, "SELECT * FROM p4c.campaign WHERE requester = $1;", array($_SESSION['login_user']));
+        if ($result == null)
+            echo "Fail during query";
+        while ($row = pg_fetch_row($result)) {
+            $fetch = urlencode($row[0]);
+            echo "
+                <div class=\"row\">
+                    <div class=\"col-lg-4 col-sm-6 portfolio-item\">
+                        <div class=\"card h-100\">
+                            <div class=\"card-body\">
+                            <form id='myform' method='GET' action='tasks.php'>
+                                <input type='hidden' name='campaign' value=$fetch>
+                                <h4 class=\"card-title\">$row[0]</h4>
+                                <input type='submit' value='Vedi Task'/>
+                            </form>
+                            <p class=\"card-text\"> <strong>Data inizio:</strong>$row[2]</p>
+                            <h6 class=\"card-text\"><strong>Data fine:</strong>$row[3]</h6 >
+                            </div>
+                        </div>
+                    </div>
+                </div>";
+        }
+    } else if ($isAdmin) {
+        echo "<h1 class=\"my-4\">New Requesters</h1>";
+        $result = pg_query_params($connection, "SELECT username FROM p4c.requester WHERE validated = $1", array('f'));
+        if (empty($result)) {
+            echo "No new requesters to be validated";
+        } else {
             while ($row = pg_fetch_row($result)) {
                 $fetch = urlencode($row[0]);
                 echo "
-                    <div class=\"row\">
-                        <div class=\"col-lg-4 col-sm-6 portfolio-item\">
-                            <div class=\"card h-100\">
-                                <div class=\"card-body\">
-                                <form id='myform' method='GET' action='tasks.php'>
-                                    <input type='hidden' name='campaign' value=$fetch>
-                                    <h4 class=\"card-title\">$row[0]</h4>
-                                    <input type='submit' value='Vedi Task'/>
-                                </form>
-                                <p class=\"card-text\"> <strong>Opening Date: </strong>$row[2]</p>
-                                <h6 class=\"card-text\"><strong>Registration Deadline: </strong>$row[3]</h6 >
-                                </div>
-                            </div>
-                        </div>
-                    </div>";
-            }
-            echo "<h2> Visualize the report! </h2>";
-            $query = "SELECT * FROM p4c.campaign AS C WHERE (now()::date NOT BETWEEN C.opening_date AND C.registration_deadline_date) AND C.requester = $1;";
-            $result = pg_query_params($connection, $query, array($_SESSION['login_user']));
-             if ($result != null) {
-                echo "<div class=\"row\">
-                        <div class=\"col - lg - 4 col - sm - 6 portfolio - item\">
-                            <div class=\"card h - 100\">
-                                <div class=\"card - body\">
-                                    <input type='hidden' name='campaign' value=$fetch>
-                                    <h4 class=\"card - title\">$row[0]</h4>";
-            }
-            while ($row = pg_fetch_row($result)) {
-                 $fetch = urlencode($row[0]);
-                 echo "
-                    <div class=\"row\">
-                        <div class=\"col-lg-4 col-sm-6 portfolio-item\">
-                            <div class=\"card h-100\">
-                                <div class=\"card-body\">
-                                <form id='myform' method='GET' action='report.php'>
-                                    <input type='hidden' name='campaign' value=$fetch>
-                                    <h4 class=\"card-title\">$row[0]</h4>
-                                    <input type='submit' value='Report'/>
-                                </form>
-                                <h6 class=\"card-text\"><strong>Registration Deadline:</strong>$row[3]</h6 >
-                                </div>
-                            </div>
-                        </div>
-                    </div>";
-            }
-        }
-    } else if ($isAdmin) {
-            echo "<h1 class=\"my-4\">New Requesters</h1>";
-            $result = pg_query_params($connection, "SELECT username FROM p4c.requester WHERE validated = $1", array('f'));
-            if (empty($result)) {
-                echo "No new requesters to be validated";
-            } else {
-                while ($row = pg_fetch_row($result)) {
-                    $fetch = urlencode($row[0]);
-                    echo "
                 <div class=\"row\">
                     <div class=\"col-lg-4 col-sm-6 portfolio-item\">
                         <div class=\"card h-100\">
@@ -276,10 +219,9 @@ session_start();
                         </div>
                     </div>
                 </div>";
-                }
             }
+        }
     } else {
-
     }
     ?>
 </div>
@@ -287,7 +229,7 @@ session_start();
 <!-- Footer -->
 <footer class="py-5 bg-dark">
     <div class="container">
-        <p class="m-0 text-center text-white">Copyright &copy; P4C 2018</p>
+        <p class="m-0 text-center text-white">Copyright &copy; Kappa 2018</p>
     </div>
     <!-- /.container -->
 </footer>
