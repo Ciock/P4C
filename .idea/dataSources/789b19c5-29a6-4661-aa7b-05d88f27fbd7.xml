@@ -55,8 +55,8 @@
     <schema id="10" parent="2" name="p4c">
       <ObjectId>16384</ObjectId>
       <Owner>postgres</Owner>
-      <IntrospectionTimestamp>2018-09-13.13:45:43.792</IntrospectionTimestamp>
-      <IntrospectionStateNumber>1046</IntrospectionStateNumber>
+      <IntrospectionTimestamp>2018-09-13.19:59:52.882</IntrospectionTimestamp>
+      <IntrospectionStateNumber>1200</IntrospectionStateNumber>
       <Visible>1</Visible>
     </schema>
     <schema id="11" parent="2" name="pg_catalog">
@@ -263,13 +263,13 @@
       <Rows>1000.0</Rows>
     </routine>
     <routine id="41" parent="10" name="stats">
-      <ObjectId>24741</ObjectId>
+      <ObjectId>41147</ObjectId>
       <Owner>postgres</Owner>
-      <SourceTextLength>932</SourceTextLength>
-      <StateNumber>960</StateNumber>
+      <SourceTextLength>1103</SourceTextLength>
+      <StateNumber>1197</StateNumber>
       <VolatilityKind>volatile</VolatilityKind>
       <ArgumentsDefinition>this_worker character varying</ArgumentsDefinition>
-      <ResultsDefinition>TABLE(lavoratore character varying, punteggio integer, posizione integer, task_eseguiti integer[], task_validi integer[])</ResultsDefinition>
+      <ResultsDefinition>TABLE(lavoratore character varying, punteggio integer, posizione integer, task_eseguiti character varying[], task_validi character varying[])</ResultsDefinition>
       <LanguageName>plpgsql</LanguageName>
       <RoutineKind>function</RoutineKind>
       <ReturnsSet>1</ReturnsSet>
@@ -291,10 +291,10 @@
       <Rows>1000.0</Rows>
     </routine>
     <routine id="43" parent="10" name="top10">
-      <ObjectId>41146</ObjectId>
+      <ObjectId>41148</ObjectId>
       <Owner>postgres</Owner>
-      <SourceTextLength>1148</SourceTextLength>
-      <StateNumber>1046</StateNumber>
+      <SourceTextLength>1144</SourceTextLength>
+      <StateNumber>1200</StateNumber>
       <VolatilityKind>volatile</VolatilityKind>
       <ArgumentsDefinition>campagna character varying, requester_campaign character varying</ArgumentsDefinition>
       <ResultsDefinition>TABLE(lavoratore character varying, punteggio integer)</ResultsDefinition>
@@ -912,7 +912,7 @@ requester</RefColNames>
     </argument>
     <argument id="131" parent="41">
       <ArgumentDirection>T</ArgumentDirection>
-      <DataType>table(lavoratore varchar, punteggio integer, posizione integer, task_eseguiti integer[], task_validi integer[])|0v</DataType>
+      <DataType>table(lavoratore varchar, punteggio integer, posizione integer, task_eseguiti character varying[], task_validi character varying[])|0v</DataType>
     </argument>
     <argument id="132" parent="42" name="username">
       <Position>1</Position>
