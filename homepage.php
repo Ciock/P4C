@@ -70,9 +70,6 @@ session_start();
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="stats.php">Report</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link" href="newCampaign.php">New Campaign</a>
                         </li>
                         <li class="nav-item">
@@ -202,6 +199,7 @@ session_start();
             }
             echo "<h2> Visualize the report! </h2>";
             $query = "SELECT * FROM p4c.campaign AS C WHERE (now()::date NOT BETWEEN C.opening_date AND C.registration_deadline_date) AND C.requester = $1;";
+            // TUTTI I TASK DELLA CAMPAGNA VANNO MESSI A F!
             $result = pg_query_params($connection, $query, array($_SESSION['login_user']));
             if ($result != null) {
                 echo "<div class=\"row\">
