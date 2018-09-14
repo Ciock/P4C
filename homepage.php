@@ -184,6 +184,8 @@ session_start();
                     
                 ";
             }
+        }if(!$t){
+            echo "<div><i>No Task suits for you, we'are sorry. Try later!</i></div>";
         }
         echo "</div>";
     } else if ($isRequester) {
@@ -200,7 +202,9 @@ session_start();
             if ($result == null) {
                 echo "Fail during query";
             }
+            $campaigncounter = 0;
             while ($row = pg_fetch_row($result)) {
+                $campaigncounter = $campaigncounter +1;
                 $fetch = urlencode($row[0]);
                 echo "
                     <div class=\"row\">
@@ -221,6 +225,9 @@ session_start();
                         </div>
                     </div>";
             }
+            if (!$campaigncounter){
+                echo "<div><i>Start now! Create a Campaign in the top right corner!</i></div>";
+            }
             echo "
                 </div>
                 <div class='column'>
@@ -240,7 +247,9 @@ session_start();
                      </div>
                  ";
             }
+            $campaigncounter = 0;
             while ($row = pg_fetch_row($result)) {
+                $campaigncounter = $campaigncounter +1;
                 $fetch = urlencode($row[0]);
                 echo "
                     <div class=\"row\">
@@ -259,6 +268,9 @@ session_start();
                             </div>
                         </div>
                     </div>";
+            }
+            if (!$campaigncounter){
+                echo "<div><i>You have no ended campaigns</i></div>";
             }
             echo "</div>";
         }
