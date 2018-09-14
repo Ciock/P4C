@@ -1,6 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
-
+<style>
+    table{
+        margin-bottom: 30px;
+        width:100%;
+        border-bottom: 2px solid black;
+        border-top: 2px solid black;
+    }
+    th, td {
+        border-bottom: 1px solid #ddd;
+        padding: 15px;
+        text-align: left;
+    }
+</style>
 <head>
 
     <meta charset="utf-8">
@@ -77,19 +89,29 @@ $result = pg_query_params($connection, "SELECT * FROM p4c.stats($1);", array($_S
 $skills = pg_query_params($connection, "SELECT * FROM p4c.got_skills WHERE worker=$1;", array($_SESSION['login_user']));
 if ($result == null)
     echo "Fail during query";
-while ($row = pg_fetch_row($result)) {
+$row = pg_fetch_row($result);
+echo "
+    <div class=\"container\">
+        <h2 class=\"my-4\">Posizione: $row[2]</h2>
+        <h2 class=\"my-4\">Punteggio: $row[1]</h2>
+    </div>
+    <table>
+        <tr>
+            <th>Skill</th> 
+            <th>Score</th>
+        </tr>
+";
+
+while ($skill = pg_fetch_row($skills)) {
     echo "
-<div class=\"container\">
-    <h2 class=\"my-4\">Posizione: $row[2]</h2>
-    <h2 class=\"my-4\">Punteggio: $row[1]</h2>
-</div>";
-    while ($skill = pg_fetch_row($skills)) {
-        echo "
-<div class=\"container\">
-    <h4 class=\"my-4\">$skill[1]: $skill[2]</h4>
-</div>";
+        <tr>
+            <td>$skill[1]</td>
+            <td>$skill[2]</td> 
+        </tr>
+    ";
     }
     echo "
+</table>
 <div class=\"container\">
     <!-- Page Heading -->
     <h2 class=\"my-4\">Task Eseguiti</h2>";
@@ -147,7 +169,6 @@ while ($row = pg_fetch_row($result)) {
 </div>
 <!-- /.container -->
 ";
-}
 ?>
 
 <!-- Footer -->
