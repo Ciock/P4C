@@ -1,6 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
-
+<style>
+    table{
+        margin-bottom: 30px;
+        width:100%;
+        border-bottom: 2px solid black;
+        border-top: 2px solid black;
+    }
+    th, td {
+        border-bottom: 1px solid #ddd;
+        padding: 15px;
+        text-align: left;
+    }
+</style>
 <head>
 
     <meta charset="utf-8">
@@ -37,9 +49,6 @@ session_start();
             <ul class="navbar-nav ml-auto">
                 <?php
                 if ($_SESSION['login_user']) {
-                    $isRequester = pg_query_params($connection, "SELECT * FROM p4c.requester WHERE username = $1", array($_SESSION['login_user']));
-                    $isRequester = pg_fetch_row($isRequester);
-                    if ($isRequester) {
                         echo '
                         <li class="nav-item">
                             <a class="nav-link">';
@@ -62,7 +71,6 @@ session_start();
                             </a>
                         </li>
                     ';
-                } else {
                 }
                 ?>
             </ul>
@@ -71,8 +79,7 @@ session_start();
 </nav>
 
 <!-- Page Content -->
-<div class="container">
-    <?php
+<?php
     $campaign = $_REQUEST['campaign'];
     $campaign = urldecode($campaign);
     $result = pg_query_params($connection, "SELECT count(*) FROM p4c.task WHERE campaign = $1;", array($campaign));
@@ -85,22 +92,93 @@ session_start();
     $ratioTask = number_format($ratioTask, 2, ',', '');
 
     echo "
-                <h1 class=\"my-4\">Created Task</h1> <h2> $numTask</h2>
-                <h1 class=\"my-4\">Completed Task</h1> <h2> $numTaskValidi</h2>       
-                <h1 class=\"my-4\">Ratio Task</h1> <h2> $ratioTask%</h2>  
-            ";
-    }
-    ?>
-    <?php
-    echo "
-    <form method=\"get\" action=\"php_logic/top10.php\">
-        <input type=\"submit\" value=\"top10\">
-        <input type=\"hidden\" value=$campaign>
-    </form>
+        <div class=\"container\">
+            <table>
+                <tr>
+                    <th>Created Task</th>
+                    <th>Completed Task</th>
+                    <th>Ration Task</th>
+                </tr>
+                <tr>
+                    <td>$numTask</td>
+                    <td>$numTaskValidi</td>
+                    <td>$ratioTask</td>
+                </tr>
+            </table> 
+        </div>
     ";
-    ?>
-</div>
-<!-- /.container -->
+//p4c.top10(CAMPAGNA, REQUESTER)
+$result = pg_query_params($connection, "SELECT p4c.top10($1,$2);", array($_REQUEST['campaign'], $_SESSION['login_user']));
+
+echo "
+    <div class=\"container\">
+        <table>
+";
+if ($result == null)
+    echo "<caption>No one answered</caption>";
+echo "
+    <tr>
+        <th></th>
+        <th>Worker</th> 
+        <th>Score</th>
+    </tr>
+";
+$position = 1;
+while ($row = pg_fetch_row($result)) {
+    $removeParentesi = array("(", ")");
+    $row[0] = str_replace($removeParentesi, "", $row[0]);
+    $worker = explode(',', $row[0]);
+    echo "
+        <tr>
+            <td>$position</td>
+            <td>$worker[0]</td> 
+            <td>$worker[1]</td>
+        </tr>
+    ";
+    $position = $position + 1;
+}
+echo "
+        </table>
+    </div>
+";
+$result = pg_query_params($connection, "SELECT * FROM p4c.task WHERE campaign = $1;", array($campaign));
+    if ($result == null)
+        echo "Fail during query";
+    while ($row = pg_fetch_row($result)) {
+        $fetch = urlencode($row[1]);
+        $campaign = urlencode($campaign);
+        echo "
+        <div class=\"container\">
+            <div class=\"row\">
+                <div class=\"col - lg - 4 col - sm - 6 portfolio - item\">
+                    <div class=\"card h - 100\">
+                        <div class=\"card - body\">
+                            <h4 class=\"card - title\">
+                                <form id='myform' method='GET' action='chooseResponse.php'>
+                                   <input type='hidden' name='task' value=$row[0]>
+                                   <input type='hidden' name='campaign' value=$campaign>
+                                   <h4 class=\"card - title\">$row[1]</h4>
+                                   <input type='submit' value='Vedi Risposte'/>
+                                </form>
+                            </h4 >
+                        <p class=\"card-text\" > <strong > Descrizione:</strong > $row[2]</p >
+                        <p class=\"card-text\" > <strong > Soglia di maggioranza:</strong > $row[4]</p > ";
+                        if($row[5] == 't')
+                            echo "<p color=\"red\" class=\"card-text\"> <strong>Maggioranza Raggiunta</strong></p> ";
+                        elseif ($row[5] == 'f')
+                            echo "<p class=\"card-text\" > <strong > Risultato:</strong > Non si è raggiunta la maggioranza richiesta</p > ";
+                        else
+                            echo "<p class=\"card-text\" > <strong > Risultato:</strong > In corso</p > ";
+
+                        echo "</div >
+                    </div >
+                </div >
+            </div >
+        </div>
+        ";
+    }
+?>
+
 <!-- Footer -->
 <footer class="py-5 bg-dark">
     <div class="container">
