@@ -91,6 +91,7 @@ if ($result == null)
     echo "Fail during query";
 $row = pg_fetch_row($result);
 echo "
+    <div style='margin: auto; width: 50%; padding: 10px;'>
     <div class=\"container\">
         <h2 class=\"my-4\">Position: $row[2]</h2>
         <h2 class=\"my-4\">Score: $row[1]</h2>
@@ -119,23 +120,27 @@ while ($skill = pg_fetch_row($skills)) {
     $eseguitiCleared = str_replace($removeParentesi, "", $row[3]);
     $eseguitiArray = explode(',', $eseguitiCleared);
     foreach ($eseguitiArray as $item) {
+        if($item){
         $item = str_replace("\"", "", $item);
         $task = pg_query_params($connection, "SELECT * FROM p4c.task WHERE titolo = $1;", array($item));
         $taskArray = pg_fetch_row(($task));
         echo "
         <div class=\"row\">
-            <div class=\"col - lg - 4 col - sm - 6 portfolio - item\">
-                <div class=\"card h - 100\">
-                    <div class=\"card - body\">
+            <div class=\"col-lg-9 col-sm-9 portfolio-item\">
+                <div class=\"card h-100\">
+                    <div class=\"card-body\">
                         <input type='hidden' name='task' value=$taskArray[0]>
-                        <h4 class=\"card - title\">$taskArray[1]</h4>
-                        <p class=\"card - text\"> <strong>Description:</strong> $taskArray[2]</p>
-                        <h6 class=\"card - text\"><strong>Requester:</strong> $taskArray[6]</h6 >
+                        <h4 class=\"card-title\">$taskArray[1]</h4>
+                        <p class=\"card-text\"> <strong>Description:</strong> $taskArray[2]</p>
+                        <h6 class=\"card-text\"><strong>Requester:</strong> $taskArray[6]</h6 >
                     </div>
                 </div>
             </div>
         </div>
 <!-- /.row -->";
+        }else{
+            echo "<div><i>Nessun Task terminato</i></div>";
+        }
     }
     echo "
 </div>
@@ -147,25 +152,30 @@ while ($skill = pg_fetch_row($skills)) {
     $eseguitiCleared = str_replace($removeParentesi, "", $row[4]);
     $eseguitiArray = explode(',', $eseguitiCleared);
     foreach ($eseguitiArray as $item) {
+        if ($item){
         $item = str_replace("\"", "", $item);
         $taskValidi = pg_query_params($connection, "SELECT * FROM p4c.task WHERE titolo = $1;", array($item));
         $taskValidiArray = pg_fetch_row(($taskValidi));
         echo "
         <div class=\"row\">
-            <div class=\"col - lg - 4 col - sm - 6 portfolio - item\">
-                <div class=\"card h - 100\">
-                    <div class=\"card - body\">
+            <div class=\"col-lg-9 col-sm-9 portfolio-item\">
+                <div class=\"card h-100\">
+                    <div class=\"card-body\">
                         <input type='hidden' name='task' value=$taskValidiArray[0]>
-                        <h4 class=\"card - title\">$taskValidiArray[1]</h4>
-                        <p class=\"card - text\"> <strong>Descrizione:</strong> $taskValidiArray[2]</p>
-                        <h6 class=\"card - text\"><strong>Requester:</strong> $taskValidiArray[6]</h6 >
+                        <h4 class=\"card-title\">$taskValidiArray[1]</h4>
+                        <p class=\"card-text\"> <strong>Descrizione:</strong> $taskValidiArray[2]</p>
+                        <h6 class=\"card-text\"><strong>Requester:</strong> $taskValidiArray[6]</h6 >
                     </div>
                 </div>
             </div>
         </div>";
+        }else{
+            echo "<div><i>Nessun Task terminato</i></div>";
+        }
     }
     echo "
 <!-- /.row -->
+</div>
 </div>
 <!-- /.container -->
 ";
