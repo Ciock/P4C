@@ -1,16 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<style>
-    table{
-        padding: 30px;
-        width:100%;
-    }
-    th, td {
-        border-bottom: 1px solid #ddd;
-        padding: 15px;
-        text-align: left;
-    }
-</style>
+
 <head>
 
     <meta charset="utf-8">
@@ -47,12 +37,21 @@ session_start();
             <ul class="navbar-nav ml-auto">
                 <?php
                 if ($_SESSION['login_user']) {
-                    echo '
+                    $isRequester = pg_query_params($connection, "SELECT * FROM p4c.requester WHERE username = $1", array($_SESSION['login_user']));
+                    $isRequester = pg_fetch_row($isRequester);
+                    if ($isRequester) {
+                        echo '
                         <li class="nav-item">
                             <a class="nav-link">';
-                    echo $_SESSION['login_user'];
-                    echo '
+                        echo $_SESSION['login_user'];
+                        echo '
                             </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="newCampaign.php">New Campaign</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="newTask.php">New Task</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="homepage.php">Homepage</a>
@@ -63,6 +62,7 @@ session_start();
                             </a>
                         </li>
                     ';
+                } else {
                 }
                 ?>
             </ul>
@@ -71,45 +71,40 @@ session_start();
 </nav>
 
 <!-- Page Content -->
-<?php
-//p4c.top10(CAMPAGNA, REQUESTER)
-$result = pg_query_params($connection, "SELECT p4c.top10($1,$2);", array($_REQUEST['campaign'], $_SESSION['login_user']));
+<div class="container">
+    <?php
+    $campaign = $_REQUEST['campaign'];
+    $campaign = urldecode($campaign);
+    $result = pg_query_params($connection, "SELECT count(*) FROM p4c.task WHERE campaign = $1;", array($campaign));
+    $row = pg_fetch_row($result);
+    $numTask = $row[0];
+    $result = pg_query_params($connection, "SELECT count(*) FROM p4c.task WHERE campaign = $1 AND result IS TRUE ;", array($campaign));
+    $row = pg_fetch_row($result);
+    $numTaskValidi = $row[0];
+    $ratioTask = ($numTaskValidi/($numTask*1.0))*100;
+    $ratioTask = number_format($ratioTask, 2, ',', '');
 
-echo "
-    <table>
-";
-if ($result == null)
-    echo "<caption>No one answered</caption>";
-echo "
-    <tr>
-        <th></th>
-        <th>Worker</th> 
-        <th>Score</th>
-    </tr>
-";
-$position = 1;
-while ($row = pg_fetch_row($result)) {
-    $removeParentesi = array("(", ")");
-    $row[0] = str_replace($removeParentesi, "", $row[0]);
-    $worker = explode(',', $row[0]);
     echo "
-        <tr>
-            <td>$position</td>
-            <td>$worker[0]</td> 
-            <td>$worker[1]</td>
-        </tr>
+                <h1 class=\"my-4\">Created Task</h1> <h2> $numTask</h2>
+                <h1 class=\"my-4\">Completed Task</h1> <h2> $numTaskValidi</h2>       
+                <h1 class=\"my-4\">Ratio Task</h1> <h2> $ratioTask%</h2>  
+            ";
+    }
+    ?>
+    <?php
+    echo "
+    <form method=\"get\" action=\"php_logic/top10.php\">
+        <input type=\"submit\" value=\"top10\">
+        <input type=\"hidden\" value=$campaign>
+    </form>
     ";
-    $position = $position + 1;
-}
-echo "
-    </table>
-";
-?>
-
+    ?>
+</div>
+<!-- /.container -->
 <!-- Footer -->
 <footer class="py-5 bg-dark">
     <div class="container">
-        <p class="m-0 text-center text-white">Copyright &copy; P4C 2018</p>
+        <p class="m-0 text-center text-white">Copyright &copy; Kappa 2018</p>
     </div>
     <!-- /.container -->
 </footer>
