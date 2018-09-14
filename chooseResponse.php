@@ -52,6 +52,9 @@ session_start();
                         <li class="nav-item">
                             <a class="nav-link" href="stats.php">Profile</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="homepage.php">Homepage</a>
+                        </li>
                         <li class="nav-item active">
                             <a class="nav-link" href="php_logic/sessionClose.php">Logout
                                 <span class=" sr-only">(current)</span>
@@ -144,15 +147,15 @@ session_start();
             $camp = $_REQUEST['campaign'];
             echo "
                     <div class=\"row\">
-                        <div class=\"col - lg - 4 col - sm - 6 portfolio - item\">
-                            <div class=\"card h - 100\">
-                                <div class=\"card - body\">
-                                    <h4 class=\"card - title\">
+                        <div class=\"col-lg-4 col-sm-6 portfolio-item\">
+                            <div class=\"card h-100\">
+                                <div class=\"card-body\">
+                                    <h4 class=\"card-title\">
                                         <a>$row[1]</a>
                                     </h4 >
                                 <form id='myform' method='GET' action='php_logic/sendResponse.php'>
-                                    <input name='response' value=$row[0] type = 'hidden'>
-                                    <input name='camp' value=$camp type = 'hidden'>
+                                    <input type='hidden' name='response' value=$row[0]>
+                                    <input type='hidden' name='camp' value=$camp>
                                     <input type='submit' value='Send Answer'>
                                 </form>
                                 </div >
