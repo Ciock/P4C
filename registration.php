@@ -37,6 +37,7 @@ $connection = connettiDB();
             <input type="password" id="conf_password" class="fadeIn fourth" name="passwordconf" placeholder="Confirm password">
             <select class="js-example-basic-multiple fadeIn second" name="skills[]" multiple="multiple">
                 <?php
+                // TODO: Togliere questa parte e mettere la richiesta solo se si è worker, altrimenti il un requester potrebbe mettersi delle skill
                 $result = pg_query($connection, "select * from p4c.skills");
                 if ($result == null)
                     echo "Fail during query";
