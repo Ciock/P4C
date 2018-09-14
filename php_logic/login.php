@@ -1,10 +1,10 @@
 <?php
 include "connettiDB.php";
 $connection = connettiDB();
-switch ($_REQUEST['loginbutton']) {
+switch ($_POST['loginbutton']) {
     case 'login': //action for html here
-        $name = $_REQUEST['name'];
-        $password = sha1($_REQUEST['password']);
+        $name = $_POST['name'];
+        $password = sha1($_POST['password']);
         $result = pg_query_params($connection, "SELECT * FROM p4c.user WHERE username=$1 and password=$2", array($name, $password));
         if (pg_num_rows($result)>0) {
             session_start();

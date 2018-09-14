@@ -1,13 +1,13 @@
 <?php
 include "connettiDB.php";
 $connection = connettiDB();
-switch ($_REQUEST['registrationbutton']) {
+switch ($_POST['registrationbutton']) {
     case 'register':
-        $name = $_REQUEST['name'];
-        $password = sha1($_REQUEST['password']);
-        $passwordconf = sha1($_REQUEST['passwordconf']);
-        $role = $_REQUEST['role'];
-        $skills = $_REQUEST['skills'];
+        $name = $_POST['name'];
+        $password = sha1($_POST['password']);
+        $passwordconf = sha1($_POST['passwordconf']);
+        $role = $_POST['role'];
+        $skills = $_POST['skills'];
         if ($password == $passwordconf) {
             if ($role == "requester") {
                 pg_query_params($connection, "INSERT INTO p4c.user(username, password) VALUES ($1, $2)", array($name, $password));
