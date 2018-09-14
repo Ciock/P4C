@@ -164,6 +164,9 @@ session_start();
                     </div >";
         }
     }
+    if (!$row){
+            echo "<div><i>Nessuna risposta</i></div>";
+        }
     ?>
 </div>
 <!-- /.container -->
