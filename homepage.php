@@ -154,8 +154,9 @@ session_start();
         $result = pg_query_params($connection, "SELECT * FROM p4c.task_assignment($1);", array($_SESSION['login_user']));
         if ($result == null)
             echo "Fail during query";
+        $taskCounter = 0;
         while ($t = pg_fetch_row($result)) {
-            // echo pg_num_rows($result);
+            $taskCounter = $taskCounter +1;
             $res = pg_query_params($connection, "SELECT * FROM p4c.task WHERE id=$1;", array($t[0]));
             $task = pg_fetch_row($res);
             $doubleResponse = pg_query_params($connection,"SELECT * FROM p4c.made_response JOIN p4c.response ON made_response.response = id WHERE task = $1 AND worker = $2",array($t[0],$_SESSION['login_user']));
@@ -184,7 +185,7 @@ session_start();
                     
                 ";
             }
-        }if(!$t){
+        }if(!$taskCounter){
             echo "<div><i>No Task suits for you, we'are sorry. Try later!</i></div>";
         }
         echo "</div>";
