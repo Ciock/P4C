@@ -1,5 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+<style>
+    table{
+        padding: 30px;
+        width:100%;
+    }
+    th, td {
+        border-bottom: 1px solid #ddd;
+        padding: 15px;
+        text-align: left;
+    }
+</style>
 <head>
 
     <meta charset="utf-8">
@@ -63,16 +74,36 @@ session_start();
 <?php
 //p4c.top10(CAMPAGNA, REQUESTER)
 $result = pg_query_params($connection, "SELECT p4c.top10($1,$2);", array($_REQUEST['campaign'], $_SESSION['login_user']));
+
+echo "
+    <table>
+";
 if ($result == null)
-    echo "Fail during query";
+    echo "<caption>No one answered</caption>";
+echo "
+    <tr>
+        <th></th>
+        <th>Worker</th> 
+        <th>Score</th>
+    </tr>
+";
+$position = 1;
 while ($row = pg_fetch_row($result)) {
+    $removeParentesi = array("(", ")");
+    $row[0] = str_replace($removeParentesi, "", $row[0]);
+    $worker = explode(',', $row[0]);
     echo "
-<div class=\"container\">
-    <h2 class=\"my-4\">Lavoratore: $row[0]</h2>
-    <h2 class=\"my-4\">Punteggio: $row[1]</h2>
-</div>
-<!-- /.row -->";
+        <tr>
+            <td>$position</td>
+            <td>$worker[0]</td> 
+            <td>$worker[1]</td>
+        </tr>
+    ";
+    $position = $position + 1;
 }
+echo "
+    </table>
+";
 ?>
 
 <!-- Footer -->
