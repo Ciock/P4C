@@ -115,7 +115,7 @@ echo "
         <table>
 ";
 if ($result == null)
-    echo "<caption>No one answered</caption>";
+    echo "<caption>No one of campaign task has finished</caption>";
 echo "
     <tr>
         <th></th>
@@ -161,14 +161,14 @@ $result = pg_query_params($connection, "SELECT * FROM p4c.task WHERE campaign = 
                                    <input type='submit' value='Vedi Risposte'/>
                                 </form>
                             </div >
-                        <p class=\"card-text\" > <strong > Descrizione:</strong > $row[2]</p >
-                        <p class=\"card-text\" > <strong > Soglia di maggioranza:</strong > $row[4]</p > ";
+                        <p class=\"card-text\" > <strong > Description:</strong > $row[2]</p >
+                        <p class=\"card-text\" > <strong > Majority Threshold:</strong > $row[4]</p > ";
                         if($row[5] == 't')
-                            echo "<p color=\"red\" class=\"card-text\"> <strong>Maggioranza Raggiunta</strong></p> ";
+                            echo "<p color=\"red\" class=\"card-text\"> <strong>Majority Achieved!</strong></p> ";
                         elseif ($row[5] == 'f')
-                            echo "<p class=\"card-text\" > <strong > Risultato:</strong > Non si è raggiunta la maggioranza richiesta</p > ";
+                            echo "<p class=\"card-text\" > <strong > Finished without reaching the majority</strong></p > ";
                         else
-                            echo "<p class=\"card-text\" > <strong > Risultato:</strong > In corso</p > ";
+                            echo "<p class=\"card-text\" > <strong > Still working on it</strong></p > ";
 
                         echo "</div >
                     </div >

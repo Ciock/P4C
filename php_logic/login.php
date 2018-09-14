@@ -14,7 +14,7 @@ switch ($_POST['loginbutton']) {
         }
         echo
         "<script>
-            alert('username o password errati');
+            alert('Incorrect username or password');
             window.location.href='../login.php';
             </script>";
         break;

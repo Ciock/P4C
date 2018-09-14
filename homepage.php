@@ -171,10 +171,10 @@ session_start();
                                         <form id=\'myform\' method='GET' action='chooseResponse.php'>
                                            <input type='hidden' name='task' value=$task[0]>
                                            <h4 class=\"card-title\">$task[1]</h4>
-                                           <input type='submit' value='Vedi Risposte'/>
+                                           <input type='submit' value='Join the task!'/>
                                         </form>
                                     </div>
-                                <p class=\"card-text\"> <strong>Descrizione:</strong> $task[2]</p>
+                                <p class=\"card-text\"> <strong>Description:</strong> $task[2]</p>
                                 <h6 class=\"card-text\"><strong>Requester:</strong> $task[6]</h6 >
                                 </div>
                             </div>
@@ -298,7 +298,7 @@ session_start();
 <!-- Footer -->
 <footer class="py-5 bg-dark">
     <div class="container">
-        <p class="m-0 text-center text-white">Copyright &copy; Kappa 2018</p>
+        <p class="m-0 text-center text-white">Copyright &copy; P4C 2018</p>
     </div>
     <!-- /.container -->
 </footer>

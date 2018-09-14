@@ -92,8 +92,8 @@ if ($result == null)
 $row = pg_fetch_row($result);
 echo "
     <div class=\"container\">
-        <h2 class=\"my-4\">Posizione: $row[2]</h2>
-        <h2 class=\"my-4\">Punteggio: $row[1]</h2>
+        <h2 class=\"my-4\">Position: $row[2]</h2>
+        <h2 class=\"my-4\">Score: $row[1]</h2>
     </div>
     <table>
         <tr>
@@ -114,7 +114,7 @@ while ($skill = pg_fetch_row($skills)) {
 </table>
 <div class=\"container\">
     <!-- Page Heading -->
-    <h2 class=\"my-4\">Task Eseguiti</h2>";
+    <h2 class=\"my-4\">Task accepted</h2>";
     $removeParentesi = array("{", "}");
     $eseguitiCleared = str_replace($removeParentesi, "", $row[3]);
     $eseguitiArray = explode(',', $eseguitiCleared);
@@ -129,7 +129,7 @@ while ($skill = pg_fetch_row($skills)) {
                     <div class=\"card - body\">
                         <input type='hidden' name='task' value=$taskArray[0]>
                         <h4 class=\"card - title\">$taskArray[1]</h4>
-                        <p class=\"card - text\"> <strong>Descrizione:</strong> $taskArray[2]</p>
+                        <p class=\"card - text\"> <strong>Description:</strong> $taskArray[2]</p>
                         <h6 class=\"card - text\"><strong>Requester:</strong> $taskArray[6]</h6 >
                     </div>
                 </div>
@@ -142,7 +142,7 @@ while ($skill = pg_fetch_row($skills)) {
 <div class=\"container\">
 
 <!-- Page Heading -->
-<h2 class=\"my-4\">Task Validi</h2>";
+<h2 class=\"my-4\">Task validated</h2>";
     $removeParentesi = array("{", "}");
     $eseguitiCleared = str_replace($removeParentesi, "", $row[4]);
     $eseguitiArray = explode(',', $eseguitiCleared);

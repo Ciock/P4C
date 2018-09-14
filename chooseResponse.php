@@ -122,7 +122,7 @@ session_start();
     <?php
     $task = $_REQUEST['task'];
     $count = 0;
-    echo "<h1 class=\"my-4\">Risposte</h1>";
+    echo "<h1 class=\"my-4\">Responses</h1>";
     $result = pg_query_params($connection, "SELECT * FROM p4c.response WHERE task = $1;", array($task));
     if ($result == null)
         echo "Fail during query";
@@ -138,7 +138,7 @@ session_start();
                                     <h4 class=\"card - title\">
                                         <a>$row[1]</a>
                                     </h4 >
-                                <p class=\"card-text\" > <strong > Numero di risposte:</strong > $v[0]</p >
+                                <p class=\"card-text\" > <strong > Number of votes for the response:</strong > $v[0]</p >
                                 </div >
                             </div >
                         </div >
@@ -170,7 +170,7 @@ session_start();
 <!-- Footer -->
 <footer class="py-5 bg-dark">
     <div class="container">
-        <p class="m-0 text-center text-white">Copyright &copy; Kappa 2018</p>
+        <p class="m-0 text-center text-white">Copyright &copy; P4C 2018</p>
     </div>
     <!-- /.container -->
 </footer>
