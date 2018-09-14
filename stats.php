@@ -139,7 +139,7 @@ while ($skill = pg_fetch_row($skills)) {
         </div>
 <!-- /.row -->";
         }else{
-            echo "<div><i>Nessun Task terminato</i></div>";
+            echo "<div><i>No terminated tasks</i></div>";
         }
     }
     echo "
@@ -163,14 +163,14 @@ while ($skill = pg_fetch_row($skills)) {
                     <div class=\"card-body\">
                         <input type='hidden' name='task' value=$taskValidiArray[0]>
                         <h4 class=\"card-title\">$taskValidiArray[1]</h4>
-                        <p class=\"card-text\"> <strong>Descrizione:</strong> $taskValidiArray[2]</p>
+                        <p class=\"card-text\"> <strong>Description:</strong> $taskValidiArray[2]</p>
                         <h6 class=\"card-text\"><strong>Requester:</strong> $taskValidiArray[6]</h6 >
                     </div>
                 </div>
             </div>
         </div>";
         }else{
-            echo "<div><i>Nessun Task terminato</i></div>";
+            echo "<div><i>No accepted task has finished</i></div>";
         }
     }
     echo "

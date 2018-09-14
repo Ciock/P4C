@@ -164,9 +164,9 @@ session_start();
                     </div >";
         }
     }
-    if (!$row){
-            echo "<div><i>Nessuna risposta</i></div>";
-        }
+    //if (!$row){
+    //        echo "<div><i>No responses available</i></div>";
+    //    }
     ?>
 </div>
 <!-- /.container -->
