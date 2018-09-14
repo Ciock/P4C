@@ -149,18 +149,18 @@ $result = pg_query_params($connection, "SELECT * FROM p4c.task WHERE campaign = 
         $campaign = urlencode($campaign);
         echo "
         <div class=\"container\">
-            <div class=\"row\">
-                <div class=\"col - lg - 4 col - sm - 6 portfolio - item\">
-                    <div class=\"card h - 100\">
-                        <div class=\"card - body\">
-                            <h4 class=\"card - title\">
+            <div style='margin: auto; width: 50%; padding: 10px;' class=\"row\">
+                <div class=\"col-lg-9 col-sm-9 portfolio-item\">
+                    <div class=\"card h-100\">
+                        <div class=\"card-body\">
+                            <div class=\"card-title\" style='text-align: center'>
                                 <form id='myform' method='GET' action='chooseResponse.php'>
                                    <input type='hidden' name='task' value=$row[0]>
                                    <input type='hidden' name='campaign' value=$campaign>
-                                   <h4 class=\"card - title\">$row[1]</h4>
+                                   <h4 class=\"card-title\">$row[1]</h4>
                                    <input type='submit' value='Vedi Risposte'/>
                                 </form>
-                            </h4 >
+                            </div >
                         <p class=\"card-text\" > <strong > Descrizione:</strong > $row[2]</p >
                         <p class=\"card-text\" > <strong > Soglia di maggioranza:</strong > $row[4]</p > ";
                         if($row[5] == 't')

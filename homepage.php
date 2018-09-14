@@ -1,6 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
-
+<style>
+    * {
+    box-sizing: border-box;
+}
+.column {
+    float: left;
+    width: 50%;
+    padding: 10px;
+}
+.rowmine:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+</style>
 <head>
 
     <meta charset="utf-8">
@@ -130,7 +144,7 @@ session_start();
 </nav>
 
 <!-- Page Content -->
-<div class="container">
+<div class="container rowmine">
     <?php
     if ($isWorker) {
         echo "<h1 class=\"my-4\">Task</h1>";
@@ -147,14 +161,16 @@ session_start();
                 echo "
                     <!-- Page Heading -->
                     <div class=\"row\">
-                        <div class=\"col-lg-4 col-sm-6 portfolio-item\">
+                        <div class=\"col-lg-9 col-sm-9 portfolio-item\">
                             <div class=\"card h-100\">
                                 <div class=\"card-body\">
-                                    <form id=\'myform\' method='GET' action='chooseResponse.php'>
-                                       <input type='hidden' name='task' value=$task[0]>
-                                       <h4 class=\"card - title\">$task[1]</h4>
-                                       <input type='submit' value='Vedi Risposte'/>
-                                    </form>
+                                    <div style='text-align: center' class=\"card-title\">
+                                        <form id=\'myform\' method='GET' action='chooseResponse.php'>
+                                           <input type='hidden' name='task' value=$task[0]>
+                                           <h4 class=\"card - title\">$task[1]</h4>
+                                           <input type='submit' value='Vedi Risposte'/>
+                                        </form>
+                                    </div>
                                 <p class=\"card-text\"> <strong>Descrizione:</strong> $task[2]</p>
                                 <h6 class=\"card-text\"><strong>Requester:</strong> $task[6]</h6 >
                                 </div>
@@ -173,7 +189,9 @@ session_start();
         if ($val == 'f') {
             echo "Wait until you're validated to the system!";
         }else{
-            echo "<h1 class=\"my-4\">Campagna</h1>";
+            echo "
+                <div class='column'>        
+                    <h1>Campaigns</h1>";
             $result = pg_query_params($connection, "SELECT * FROM p4c.campaign AS C WHERE C.requester = $1;", array($_SESSION['login_user']));
             if ($result == null) {
                 echo "Fail during query";
@@ -182,14 +200,16 @@ session_start();
                 $fetch = urlencode($row[0]);
                 echo "
                     <div class=\"row\">
-                        <div class=\"col-lg-4 col-sm-6 portfolio-item\">
+                        <div class=\"col-lg-9 col-sm-9 portfolio-item\">
                             <div class=\"card h-100\">
                                 <div class=\"card-body\">
-                                <form id='myform' method='GET' action='tasks.php'>
-                                    <input type='hidden' name='campaign' value=$fetch>
-                                    <h4 class=\"card-title\">$row[0]</h4>
-                                    <input type='submit' value='Vedi Task'/>
-                                </form>
+                                    <div style='text-align: center' class=\"card-title\">
+                                        <form id='myform' method='GET' action='tasks.php'>
+                                            <input type='hidden' name='campaign' value=$fetch>
+                                            <h4 class=\"card-title\">$row[0]</h4>
+                                            <input type='submit' value='Vedi Task'/>
+                                        </form>
+                                    </div>
                                 <p class=\"card-text\"> <strong>Opening Date: </strong>$row[2]</p>
                                 <h6 class=\"card-text\"><strong>Registration Deadline: </strong>$row[3]</h6 >
                                 </div>
@@ -197,36 +217,46 @@ session_start();
                         </div>
                     </div>";
             }
-            echo "<h2> Visualize the report! </h2>";
+            echo "
+                </div>
+                <div class='column'>
+                    <h1>Ended Campaigns</h1>";
             $query = "SELECT * FROM p4c.campaign AS C WHERE (now()::date NOT BETWEEN C.opening_date AND C.registration_deadline_date) AND C.requester = $1;";
             // TUTTI I TASK DELLA CAMPAGNA VANNO MESSI A F!
             $result = pg_query_params($connection, $query, array($_SESSION['login_user']));
-            if ($result != null) {
+            if ($result == null) {
                 echo "<div class=\"row\">
-                        <div class=\"col - lg - 4 col - sm - 6 portfolio - item\">
-                            <div class=\"card h - 100\">
-                                <div class=\"card - body\">
-                                    <input type='hidden' name='campaign' value=$fetch>
-                                    <h4 class=\"card - title\">$row[0]</h4>";
+                        <div class=\"col-lg-9 col-sm-9 portfolio-item\">
+                            <div class=\"card h-100\">
+                                <div class=\"card-body\">
+                                    <h4 class=\"card-title\">No ended Campaign</h4>
+                                </div>
+                            </div>
+                        </div>
+                     </div>
+                 ";
             }
             while ($row = pg_fetch_row($result)) {
                 $fetch = urlencode($row[0]);
                 echo "
                     <div class=\"row\">
-                        <div class=\"col-lg-4 col-sm-6 portfolio-item\">
+                        <div class=\"col-lg-9 col-sm-9 portfolio-item\">
                             <div class=\"card h-100\">
                                 <div class=\"card-body\">
-                                <form id='myform' method='GET' action='report.php'>
-                                    <input type='hidden' name='campaign' value=$fetch>
-                                    <h4 class=\"card-title\">$row[0]</h4>
-                                    <input type='submit' value='Report'/>
-                                </form>
+                                    <div style='text-align: center' class='card-title'>
+                                        <form id='myform' method='GET' action='report.php'>
+                                            <input type='hidden' name='campaign' value=$fetch>
+                                            <h4 class=\"card-title\">$row[0]</h4>
+                                            <input type='submit' value='Report'/>
+                                        </form>
+                                    </div>
                                 <h6 class=\"card-text\"><strong>Registration Deadline:</strong>$row[3]</h6 >
                                 </div>
                             </div>
                         </div>
                     </div>";
             }
+            echo "</div>";
         }
     } else if ($isAdmin) {
         echo "<h1 class=\"my-4\">New Requesters</h1>";
@@ -238,7 +268,7 @@ session_start();
                 $fetch = urlencode($row[0]);
                 echo "
                 <div class=\"row\">
-                    <div class=\"col-lg-4 col-sm-6 portfolio-item\">
+                    <div class=\"col-lg-9 col-sm-9 portfolio-item\">
                         <div class=\"card h-100\">
                             <div class=\"card-body\">
                             <form id='myform' method='GET' action='php_logic/validateUsers.php'>
