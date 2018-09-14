@@ -147,7 +147,10 @@ session_start();
 <div class="container rowmine">
     <?php
     if ($isWorker) {
-        echo "<h1 class=\"my-4\">Task</h1>";
+        echo "
+            <h1 style='text-align: center'>Task</h1>
+            <div style='margin: auto; width: 50%; padding: 10px;'
+        ";
         $result = pg_query_params($connection, "SELECT * FROM p4c.task_assignment($1);", array($_SESSION['login_user']));
         if ($result == null)
             echo "Fail during query";
@@ -161,13 +164,13 @@ session_start();
                 echo "
                     <!-- Page Heading -->
                     <div class=\"row\">
-                        <div class=\"col-lg-9 col-sm-9 portfolio-item\">
+                        <div class=\"col-lg-12 col-sm-12 portfolio-item\">
                             <div class=\"card h-100\">
                                 <div class=\"card-body\">
                                     <div style='text-align: center' class=\"card-title\">
                                         <form id=\'myform\' method='GET' action='chooseResponse.php'>
                                            <input type='hidden' name='task' value=$task[0]>
-                                           <h4 class=\"card - title\">$task[1]</h4>
+                                           <h4 class=\"card-title\">$task[1]</h4>
                                            <input type='submit' value='Vedi Risposte'/>
                                         </form>
                                     </div>
@@ -182,6 +185,7 @@ session_start();
                 ";
             }
         }
+        echo "</div>";
     } else if ($isRequester) {
         $query = "SELECT validated FROM p4c.requester WHERE username = $1";
         $result = pg_query_params($connection, $query, array($_SESSION['login_user']));
