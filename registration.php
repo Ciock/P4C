@@ -56,7 +56,7 @@ $connection = connettiDB();
                 <input type="radio" value="requester" name="role">
                 <span class="checkmark"></span>
             </label>
-            <input type="submit" class="fadeIn fifth" name="registrationbutton" value="sign in">
+            <input type="submit" class="fadeIn fifth" name="registrationbutton" value="register">
             <input type="submit" class="fadeIn fifth" name="registrationbutton" value="login">
         </form>
 

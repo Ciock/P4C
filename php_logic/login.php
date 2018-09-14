@@ -2,8 +2,6 @@
 include "connettiDB.php";
 $connection = connettiDB();
 switch ($_REQUEST['loginbutton']) {
-
-    // TODO: funzione per effettuare il login
     case 'login': //action for html here
         $name = $_REQUEST['name'];
         $password = sha1($_REQUEST['password']);
@@ -21,7 +19,7 @@ switch ($_REQUEST['loginbutton']) {
             </script>";
         break;
 
-    case 'sign in': //action for html here
+    case 'register': //action for html here
         header("Location:/P4C/registration.php");
         break;
 

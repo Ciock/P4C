@@ -2,7 +2,7 @@
 include "connettiDB.php";
 $connection = connettiDB();
 switch ($_REQUEST['registrationbutton']) {
-    case 'sign in':
+    case 'register':
         $name = $_REQUEST['name'];
         $password = sha1($_REQUEST['password']);
         $passwordconf = sha1($_REQUEST['passwordconf']);
