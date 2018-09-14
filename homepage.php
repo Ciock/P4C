@@ -204,10 +204,10 @@ session_start();
                             <div class=\"card h-100\">
                                 <div class=\"card-body\">
                                     <div style='text-align: center' class=\"card-title\">
-                                        <form id='myform' method='GET' action='tasks.php'>
+                                        <form id='myform' method='GET' action='report.php'>
                                             <input type='hidden' name='campaign' value=$fetch>
                                             <h4 class=\"card-title\">$row[0]</h4>
-                                            <input type='submit' value='Vedi Task'/>
+                                            <input type='submit' value='Report'/>
                                         </form>
                                     </div>
                                 <p class=\"card-text\"> <strong>Opening Date: </strong>$row[2]</p>
