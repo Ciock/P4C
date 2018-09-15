@@ -186,7 +186,7 @@ session_start();
                 ";
             }
         }if(!$taskCounter){
-            echo "<div><i>No Task suits for you, we'are sorry. Try later!</i></div>";
+            echo "<div><i>No Task suits for you, we're sorry. Try later!</i></div>";
         }
         echo "</div>";
     } else if ($isRequester) {
@@ -233,8 +233,13 @@ session_start();
                 </div>
                 <div class='column'>
                     <h1>Ended Campaigns</h1>";
+            $query = "SELECT C.title, C.requester FROM p4c.campaign AS C WHERE (now()::date NOT BETWEEN C.opening_date AND C.registration_deadline_date) AND C.requester = $1;";
+            // Settaggio a FALSE dei task scaduti
+            while ($row = pg_fetch_row($query)) {
+                $query = "UPDATE p4c.task SET result = FALSE WHERE campaign = $1 AND requester = $2";
+                $query = pg_query_params($connection, $query, array($row[0],$row[1]));
+            }
             $query = "SELECT * FROM p4c.campaign AS C WHERE (now()::date NOT BETWEEN C.opening_date AND C.registration_deadline_date) AND C.requester = $1;";
-            // TODO: TUTTI I TASK DELLA CAMPAGNA VANNO MESSI A F!
             $result = pg_query_params($connection, $query, array($_SESSION['login_user']));
             if ($result == null) {
                 echo "<div class=\"row\">

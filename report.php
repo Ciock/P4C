@@ -146,6 +146,8 @@ $result = pg_query_params($connection, "SELECT * FROM p4c.task WHERE campaign = 
         echo "Fail during query";
     while ($row = pg_fetch_row($result)) {
         $fetch = urlencode($row[1]);
+        //$checkFinished = "SELECT C.registration_deadline_date FROM p4c.campaign AS C WHERE C.title = $1";
+        //$query = pg_query_params($connection, $checkFinished, array($campaign));
         $campaign = urlencode($campaign);
         echo "
         <div class=\"container\">
@@ -158,7 +160,7 @@ $result = pg_query_params($connection, "SELECT * FROM p4c.task WHERE campaign = 
                                    <input type='hidden' name='task' value=$row[0]>
                                    <input type='hidden' name='campaign' value=$campaign>
                                    <h4 class=\"card-title\">$row[1]</h4>
-                                   <input type='submit' value='Vedi Risposte'/>
+                                   <input type='submit' value='See responses'/>
                                 </form>
                             </div >
                         <p class=\"card-text\" > <strong > Description:</strong > $row[2]</p >
@@ -182,7 +184,7 @@ $result = pg_query_params($connection, "SELECT * FROM p4c.task WHERE campaign = 
 <!-- Footer -->
 <footer class="py-5 bg-dark">
     <div class="container">
-        <p class="m-0 text-center text-white">Copyright &copy; Kappa 2018</p>
+        <p class="m-0 text-center text-white">Copyright &copy; P4C 2018</p>
     </div>
     <!-- /.container -->
 </footer>
