@@ -234,9 +234,8 @@ session_start();
                 <div class='column'>
                     <h1>Ended Campaigns</h1>";
             $query = "SELECT C.title, C.requester FROM p4c.campaign AS C WHERE (now()::date NOT BETWEEN C.opening_date AND C.registration_deadline_date) AND C.requester = $1;";
-            // Settaggio a FALSE dei task scaduti
             $query = pg_query_params($connection, $query, array($_SESSION['login_user']));
-            $queryInner = "UPDATE p4c.task SET result = FALSE WHERE campaign = $1 AND requester = $2";
+            $queryInner = "UPDATE p4c.task SET result = FALSE WHERE campaign = $1 AND requester = $2 AND result IS NULL";
             while ($row = pg_fetch_row($query)) {
                 pg_query_params($connection, $queryInner, array($row[0],$row[1]));
             }

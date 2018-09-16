@@ -5,6 +5,7 @@ session_start();
 
 $requester = $_SESSION['login_user'];
 $title = $_REQUEST['name'];
+$title = str_replace(" ", "_", $title);
 $expirationDate = $_REQUEST['date'];
 $reg_dead = $_REQUEST['reg_date'];
 date_default_timezone_set("Europe/Rome");

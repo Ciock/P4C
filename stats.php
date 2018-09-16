@@ -147,7 +147,7 @@ while ($skill = pg_fetch_row($skills)) {
 <div class=\"container\">
 
 <!-- Page Heading -->
-<h2 class=\"my-4\">Task validated</h2>";
+<h2 class=\"my-4\">Task finished</h2>";
     $removeParentesi = array("{", "}");
     $eseguitiCleared = str_replace($removeParentesi, "", $row[4]);
     $eseguitiArray = explode(',', $eseguitiCleared);

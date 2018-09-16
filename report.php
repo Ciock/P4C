@@ -97,7 +97,7 @@ session_start();
                 <tr>
                     <th>Created Task</th>
                     <th>Completed Task</th>
-                    <th>Ration Task</th>
+                    <th>% Completed Task</th>
                 </tr>
                 <tr>
                     <td>$numTask</td>
@@ -125,6 +125,9 @@ echo "
 ";
 $position = 1;
 while ($row = pg_fetch_row($result)) {
+    //$removeParentesi = array("(", ")");
+    //$raw = str_replace($removeParentesi, "", $row);
+    //$worker = explode(',', $raw);
     $removeParentesi = array("(", ")");
     $row[0] = str_replace($removeParentesi, "", $row[0]);
     $worker = explode(',', $row[0]);
@@ -146,8 +149,6 @@ $result = pg_query_params($connection, "SELECT * FROM p4c.task WHERE campaign = 
         echo "Fail during query";
     while ($row = pg_fetch_row($result)) {
         $fetch = urlencode($row[1]);
-        //$checkFinished = "SELECT C.registration_deadline_date FROM p4c.campaign AS C WHERE C.title = $1";
-        //$query = pg_query_params($connection, $checkFinished, array($campaign));
         $campaign = urlencode($campaign);
         echo "
         <div class=\"container\">
