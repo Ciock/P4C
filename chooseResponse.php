@@ -126,16 +126,18 @@ session_start();
     $result = pg_query_params($connection, "SELECT * FROM p4c.response WHERE task = $1;", array($task));
     if ($result == null)
         echo "Fail during query";
+    $responseCounter = 0;
     while ($row = pg_fetch_row($result)) {
+        $responseCounter = $responseCounter +1;
         $voti = pg_query_params($connection, "SELECT count(*) FROM p4c.made_response WHERE response = $1;", array($row[0]));
         $v = pg_fetch_row($voti);
         if ($isRequester) {
             echo "
                     <div class=\"row\">
-                        <div class=\"col - lg - 4 col - sm - 6 portfolio - item\">
-                            <div class=\"card h - 100\">
-                                <div class=\"card - body\">
-                                    <h4 class=\"card - title\">
+                        <div class=\"col-lg-4 col-sm-6 portfolio-item\">
+                            <div class=\"card h-100\">
+                                <div class=\"card-body\">
+                                    <h4 class=\"card-title\">
                                         <a>$row[1]</a>
                                     </h4 >
                                 <p class=\"card-text\" > <strong > Number of votes for the response:</strong > $v[0]</p >
@@ -164,9 +166,9 @@ session_start();
                     </div >";
         }
     }
-    //if (!$row){
-    //        echo "<div><i>No responses available</i></div>";
-    //    }
+    if (!$responseCounter){
+            echo "<div><i>No responses available</i></div>";
+        }
     ?>
 </div>
 <!-- /.container -->

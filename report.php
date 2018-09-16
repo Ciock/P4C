@@ -102,7 +102,7 @@ session_start();
                 <tr>
                     <td>$numTask</td>
                     <td>$numTaskValidi</td>
-                    <td>$ratioTask</td>
+                    <td>$ratioTask%</td>
                 </tr>
             </table> 
         </div>
@@ -125,9 +125,6 @@ echo "
 ";
 $position = 1;
 while ($row = pg_fetch_row($result)) {
-    //$removeParentesi = array("(", ")");
-    //$raw = str_replace($removeParentesi, "", $row);
-    //$worker = explode(',', $raw);
     $removeParentesi = array("(", ")");
     $row[0] = str_replace($removeParentesi, "", $row[0]);
     $worker = explode(',', $row[0]);
@@ -167,11 +164,11 @@ $result = pg_query_params($connection, "SELECT * FROM p4c.task WHERE campaign = 
                         <p class=\"card-text\" > <strong > Description:</strong > $row[2]</p >
                         <p class=\"card-text\" > <strong > Majority Threshold:</strong > $row[4]</p > ";
                         if($row[5] == 't')
-                            echo "<p color=\"red\" class=\"card-text\"> <strong>Majority Achieved!</strong></p> ";
+                            echo "<p style='text-align: right' class=\"card-text\"> <strong><i>Majority Achieved!</i></strong></p> ";
                         elseif ($row[5] == 'f')
-                            echo "<p class=\"card-text\" > <strong > Finished without reaching the majority</strong></p > ";
+                            echo "<p style='text-align: right' class=\"card-text\" > <strong><i>Finished without reaching the majority</i></strong></p > ";
                         else
-                            echo "<p class=\"card-text\" > <strong > Still working on it</strong></p > ";
+                            echo "<p style='text-align: right' class=\"card-text\" > <strong><i>Still working on it</i></strong></p > ";
 
                         echo "</div >
                     </div >

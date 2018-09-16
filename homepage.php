@@ -156,12 +156,12 @@ session_start();
             echo "Fail during query";
         $taskCounter = 0;
         while ($t = pg_fetch_row($result)) {
-            $taskCounter = $taskCounter +1;
             $res = pg_query_params($connection, "SELECT * FROM p4c.task WHERE id=$1;", array($t[0]));
             $task = pg_fetch_row($res);
             $doubleResponse = pg_query_params($connection,"SELECT * FROM p4c.made_response JOIN p4c.response ON made_response.response = id WHERE task = $1 AND worker = $2",array($t[0],$_SESSION['login_user']));
             $isdoubleResponse = pg_fetch_row($doubleResponse);
             if (pg_num_rows($doubleResponse) == 0) {
+                $taskCounter = $taskCounter +1;
                 echo "
                     <!-- Page Heading -->
                     <div class=\"row\">
