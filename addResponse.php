@@ -80,9 +80,8 @@
     <h1 class=\"my - 4\">Add Response</h1>
     <form action=\"php_logic/addResponse.php\" method=\"get\">
             <input type=\"hidden\" name=\"task\" value=$title>
-            <input type=\"text\" name=\"response\" placeholder=\"Response\">
+            <input required type=\"text\" name=\"response\" placeholder=\"Response\">
             <input type=\"submit\" name=\"button\" value=\"Add\">
-            <input type=\"submit\" name=\"button\" value=\"Back to homepage\">
     </form>
     </div>";
 ?>
