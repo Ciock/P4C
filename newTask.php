@@ -87,7 +87,7 @@
                 }
                 ?>
             </select>
-            <select multiple name="keywords[]">
+            <select required multiple name="keywords[]">
                 <?php
                 $result = pg_query_params($connection, "SELECT keyword FROM p4c.keyword WHERE $1 = $1", array($_SESSION['login_user']));
                 while ($row = pg_fetch_row($result)) {

@@ -11,7 +11,6 @@ $tresh = $_REQUEST['magg'];
 $campaign = $_REQUEST['campaign'];
 $keywords = $_REQUEST['keywords'];
 
-
 $tresh = doubleval($tresh);
 $title = urldecode($title);
 $titlemodified = str_replace("\"", "", $title);
