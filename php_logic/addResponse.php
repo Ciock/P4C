@@ -14,7 +14,7 @@ if ($_REQUEST['button']=="Add") {
     $query = "INSERT INTO p4c.response(name,task) VALUES ($1, $2)";
     $done = pg_query_params($connection, $query, array($response, $id[0]));
     $task = urlencode($task);
-    $header = "Location:/P4C/add_response.php?task=".$task."&id=".$id[0]."&response=".$response;
+    $header = "Location:/P4C/add_Response.php?task=".$task."&id=".$id[0]."&response=".$response;
     header($header);
 }else{
     header("Location:/P4C/homepage.php");
