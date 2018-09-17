@@ -25,6 +25,5 @@ foreach ($keywords as $keyword){
     $query = "INSERT INTO p4c.contains_keyword(task, keyword) VALUES ($1, $2)";
     $done = pg_query_params($connection, $query, array($id[0], $keyword));
 }
-$title = urlencode($title);
-$header = "Location:/P4C/addResponse.php?task=".$titlemodified."&k=".$keywords."&id=".$id[0];
+$header = "Location:/P4C/addResponse.php?&id=".$id[0];
 header($header);

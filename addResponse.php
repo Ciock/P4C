@@ -73,19 +73,14 @@
 
 <!-- Page Content -->
 <?php
-$title = $_REQUEST['task'];
-$title = urldecode($title);
-$query_id_task = "SELECT id FROM p4c.task WHERE titolo = $1";
-$fake_id = pg_query_params($connection, $query_id_task, array($title));
-$id = pg_fetch_row($fake_id);
-$result = pg_query_params($connection, "SELECT * FROM p4c.response WHERE task = $1;", array($id[0]));
-$title = urlencode($title);
+$task = $_REQUEST['id'];
+$result = pg_query_params($connection, "SELECT * FROM p4c.response WHERE task = $1;", array($_REQUEST['id']));
 if ($row = pg_fetch_row($result)) {
     echo " 
         <div class=\"container\">
         <h1 class=\"my-4\">Add Response</h1>
         <form action=\"php_logic/addResponse.php\" method=\"get\">
-            <input type=\"hidden\" name=\"task\" value=$title>
+            <input type=\"hidden\" name=\"id\" value=$task>
             <input type=\"text\" name=\"response\" placeholder=\"Response\">
             <input type=\"submit\" name=\"button\" value=\"Add\">
             <input type=\"submit\" name=\"button\" value=\"Back to homepage\">
@@ -96,7 +91,7 @@ if ($row = pg_fetch_row($result)) {
         <div class=\"container\">
         <h1 class=\"my-4\">Add Response</h1>
         <form action=\"php_logic/addResponse.php\" method=\"get\">
-            <input type=\"hidden\" name=\"task\" value=$title>
+            <input type=\"hidden\" name=\"id\" value=$task>
             <input required type=\"text\" name=\"response\" placeholder=\"Response\">
             <input type=\"submit\" name=\"button\" value=\"Add\">
         </form>
